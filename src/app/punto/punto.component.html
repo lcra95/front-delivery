@@ -1,0 +1,267 @@
+<section class="section-content padding-y" *ngIf="!nCliente">
+	<div class="container-fluid">
+
+		<div class="row">
+			<aside class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4>Nueva Venta</h4>
+
+					</div>
+				</div>
+
+			</aside>
+
+		</div>
+		<div class="row">
+			<aside class="col-lg-8">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-group">
+							<label>Producto</label>
+							<div class="input-group">
+								<input type="text" class="form-control" [(ngModel)]="producto">
+								<span class="input-group-append"><button (click)="addProd()"
+										class="btn btn-primary">Agregar</button></span>
+							</div>
+						</div>
+						<hr>
+						<table class="table table-borderless table-shopping-cart">
+
+							<thead class="text-muted">
+								<tr class="small text-uppercase">
+									<th scope="col">Producto</th>
+									<th scope="col" width="120">Cant.</th>
+									<th scope="col" width="120">Precio</th>
+									<th scope="col" width="120">Total</th>
+									<th scope="col" width="60"></th>
+								</tr>
+							</thead>
+							<tbody id="tablePresta">
+								<tr *ngFor="let prod of prodSelected; let i = index;">
+									<td>{{prod.nombre}}
+										<!-- <input type="text" class="form-control" value="{{prod.nombre}}" disabled> -->
+									</td>
+									<td>
+										<input type="number" min="1" class="form-control" (change)="change(i)"
+											[(ngModel)]="prod.cantidad" value="{{prod.cantidad}}">
+									</td>
+									<td>{{prod.precio | number:'1.0-0'}}
+										<!-- <input type="number" name="" id="" value="{{prod.precio}}" class="form-control" readonly> -->
+									</td>
+									<td>{{prod.total | number:'1.0-0'}}
+										<!-- <input type="number" name="" id="" value="{{prod.total}}" class="form-control" readonly> -->
+									</td>
+									<td>
+										<button class="btn btn-sm btn-danger" (click)="retira(i)"> <i
+												class="fa fa-trash"></i></button>
+									</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</aside>
+			<aside class="col-lg-4">
+
+				<div class="card">
+					<div class="card-body">
+						<div class="form-group">
+							<label for="prevision">Documento</label>
+							<select id="prevision" class="form-control" [(ngModel)]="tipo_documento"
+								(change)="setTipoDoc()">
+								<option *ngFor="let documento of documentos" value="{{documento.id}}">
+									{{documento.nombre}}</option>
+
+
+							</select>
+						</div>
+						<div class="input-group w-100" *ngIf="cliente">
+							<input id="cliente" type="text" class="form-control" [(ngModel)]="rut_cliente"
+								placeholder="Rut del cliente">
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="submit" (click)="searchcliente()">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div><br>
+						<div class="itemside col-sm-12 border-top" *ngIf="cliente">
+							<button class="btn" (click)="nCliente = true">+ Nuevo Cliente</button>
+						</div>
+						<div class="itemside col-md-12  border-bottom" *ngIf="isClient && cliente">
+							<div class="info ">
+								<div class="border-bottom">
+									<p><strong>Razón Social: </strong><small> {{infoCliente.razon}} </small></p>
+									<p><strong>Rut: </strong><small> {{infoCliente.identificacion}} </small></p>
+									<p><strong>Giro: </strong> <small>{{infoCliente.giro}} </small></p>
+									<p><strong>Teléfono: </strong><small>{{infoCliente.telefono}}</small></p>
+									<p><strong>Email: </strong><small>{{infoCliente.correo}}</small></p>
+									<!-- <p><strong>N° cuenta: </strong>{{cuenta.numero}}</p> -->
+								</div>
+							</div>
+						</div>
+						<div class="itemside col-md-12 " *ngIf="isClient && cliente">
+							<div class="info">
+								<strong>Direcciones</strong>
+
+							</div>
+						</div>
+						<div class="itemside col-md-12  border-bottom" *ngIf="cliente">
+
+							<div class="info">
+								<div *ngFor="let direccion of direcciones" class="border-bottom">
+									<label for="enum_answer_{{direccion.id}}" class="font-weight-bold text-dark">
+										<input id="enum_answer_{{direccion.id}}" [value]='direccion.id' type="radio"
+											name="enums" [(ngModel)]="dirselect">
+										&nbsp;
+										<small>{{direccion.direccion_escrita}} </small><br>
+										<small>{{direccion.comuna}} &nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#">Editar</a></small>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<dl class="dlist-align">
+							<dt>Sub Total:</dt>
+							<dd class="text-right">${{stotal | number:'1.0-0'}}</dd>
+						</dl>
+						<dl class="dlist-align">
+							<dt>Iva.:</dt>
+							<dd class="text-right text-danger"> ${{iva | number:'1.0-0'}}</dd>
+						</dl>
+						<dl class="dlist-align">
+							<dt>Total:</dt>
+							<dd class="text-right text-dark b"><strong>${{total | number:'1.0-0'}}</strong></dd>
+						</dl>
+						<hr>
+					</div>
+					<div class="form-group col-md-12">
+						<label>Forma de Pago</label>
+						<select id="inputState" class="form-control" [(ngModel)]="tipo_pago">
+							<option *ngFor="let pago of pagos" value="{{pago.id}}"> {{pago.nombre}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-12">
+						<button class="btn btn-primary btn-block" (click)="registrarVenta()"> Registrar </button>
+					</div>
+				</div>
+
+
+			</aside>
+
+		</div>
+
+	</div>
+</section>
+<section class="section-content padding-y" *ngIf="nCliente">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+
+				<div class="card">
+					<article class="card-body">
+						<header class="mb-4">
+							<h4 class="card-title">Nuevo Cliente</h4>
+						</header>
+
+						<div class="form-group form-row">
+							<label class="col-md-3 col-form-label">Identificacion</label>
+							<div class="col">
+								<select class="custom-select form-control" [(ngModel)]="registro.tipo_persona">
+									<option value="-1">Seleccione...</option>
+									<option value="1">Jurídica</option>
+									<option value="2">Natural</option>
+								</select>
+							</div>
+							<div class="col">
+								<input type="text" [(ngModel)]="registro.identificacion" class="form-control"
+									placeholder="Identificacion">
+							</div>
+						</div>
+						<div class="form-group form-row">
+							<label class="col-md-3 col-form-label">Razón</label>
+							<div class="col">
+								<input type="text" [(ngModel)]="registro.nombre" class="form-control"
+									placeholder="Nombre">
+							</div>
+						</div>
+						<div class="form-group form-row">
+							<label class="col-md-3 col-form-label">Giro</label>
+							<div class="col-sm-9">
+								<input type="text" [(ngModel)]="registro.giro" class="form-control"
+									placeholder="Actividad Comercial">
+							</div>
+						</div>
+
+						<div class="form-group form-row">
+							<label class="col-md-3 col-form-label">Teléfono</label>
+							<div class="col-9">
+								<div class="input-group">
+									<select class="custom-select" style="max-width: 120px;">
+										<option selected="">+56</option>
+
+									</select>
+									<input name="" [(ngModel)]="registro.fono" class="form-control" placeholder="Numero"
+										type="text">
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group form-row">
+							<label class="col-md-3 col-form-label">Email</label>
+							<div class="col-sm-9">
+								<input type="email" [(ngModel)]="registro.email" class="form-control"
+									placeholder="Ex. john@gmail.com">
+							</div>
+						</div>
+
+
+						<div class="form-group form-row">
+							<label class="col-md-3 col-form-label">Dirección</label>
+							<div class="col">
+								<select class="custom-select form-control" [(ngModel)]="registro.region"
+									(change)="provinciaSelect()">
+									<option value="1">Seleccione...</option>
+									<option *ngFor="let region of regiones" value="{{region.id}}">{{region.nombre}}
+									</option>
+								</select>
+							</div>
+							<div class="col">
+								<select class="custom-select form-control" [(ngModel)]="registro.comuna">
+									<option value="1">Seleccione...</option>
+									<option *ngFor="let comuna of comunas" value="{{comuna.id}}">{{comuna.nombre}}
+									</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group form-row">
+							<label class="col-md-3"> </label>
+							<div class="col">
+								<input type="text" [(ngModel)]="registro.direccion" class="form-control"
+									placeholder="Calle, Numero, N° local, N° depto">
+							</div>
+						</div>
+
+						<div class="form-row mb-2">
+							<div class="col-sm-9 offset-sm-3">
+								<button type="submit" class="btn btn-block btn-primary"
+									(click)="addCliente()">Registrar</button>
+							</div>
+						</div>
+
+					</article>
+
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</div>
+</section>

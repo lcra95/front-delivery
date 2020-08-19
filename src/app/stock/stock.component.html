@@ -1,0 +1,216 @@
+<section class="section-content padding-y" *ngIf="!new">
+	<div class="container-fluid">
+		<!-- <div class="row">
+		<div class="card-body border-bottom" align="right">
+			<a class="btn mb-0 btn-outline-primary btn-md btn-block" id="open" style="width: 150px;">Nueva
+				atención</a>
+		</div>
+	</div> -->
+		<div class="row">
+			<aside class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4>Stock</h4>
+						<br>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<input type="text" class="form-control" id="Folio" placeholder="Nombre"
+										[(ngModel)]="nombre">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<select id="sucursal" class="form-control" [(ngModel)]="sucur">
+
+										<option *ngFor="let sucursal of sucursales" value="{{sucursal.id}}">
+											{{sucursal.nombre}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<input type="text" class="form-control" id="Folio" placeholder="SKU"
+										[(ngModel)]="sku">
+								</div>
+							</div>
+							<div class="col-sm-1">
+								<div class="form-group">
+									<button (click)="filtrar()" class="btn btn-primary">Filtrar</button>
+								</div>
+							</div>
+							<div class="col-sm-1">
+								<div class="form-group">
+									<button (click)="limpiar()" class="btn btn-danger">Limpiar</button>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<button (click)="new =true" class="btn btn-success">Registrar Stock</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</aside>
+
+		</div>
+		<div class="row">
+			<aside class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">SKU</th>
+									<th scope="col">Nombre</th>
+									<th scope="col">Cantidad</th>
+									<th scope="col">Sucursal</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let stock of productos; let i = index;">
+									<th scope="row">{{stock.sku}}</th>
+									<td>{{stock.nombre}}</td>
+									<td>{{stock.cantidad}}</td>
+									<td>{{stock.sucursal}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</aside>
+
+		</div>
+
+	</div>
+</section>
+
+<!--NUEVO INGRESO DE STOCK-->
+
+<section class="section-content padding-y" *ngIf="new">
+	<div class="container-fluid">
+		<!-- <div class="row">
+		<div class="card-body border-bottom" align="right">
+			<a class="btn mb-0 btn-outline-primary btn-md btn-block" id="open" style="width: 150px;">Nueva
+				atención</a>
+		</div>
+	</div> -->
+		<div class="row">
+			<aside class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4>Registro de Stock</h4>
+						<br>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="form-group">
+									<select id="sucursal" class="form-control" [(ngModel)]="sucursal">
+										<option *ngFor="let sucursal of sucursales" value="{{sucursal.id}}">
+											{{sucursal.nombre}}</option>
+
+
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<select id="prevision" class="form-control" [(ngModel)]="tipo_documento">
+										<option *ngFor="let documento of documentos" value="{{documento.id}}">
+											{{documento.nombre}}</option>
+
+
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+
+									<input type="text" class="form-control" id="Folio" placeholder="Folio"
+										[(ngModel)]="folio">
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<input type="text" class="form-control" id="observacion" placeholder="Observación"
+										[(ngModel)]="observacion">
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<button class="btn btn-primary btn-block" (click)="registrarStock()"> Registrar
+									</button>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<button class="btn btn-success btn-block" (click)="new = false">Ir a Stock</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</aside>
+
+		</div>
+		<div class="row">
+			<aside class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-group">
+							<label>Producto</label>
+							<div class="input-group">
+								<input type="text" class="form-control" [(ngModel)]="producto">
+								<span class="input-group-append"><button (click)="addProd()"
+										class="btn btn-primary">Agregar</button></span>
+							</div>
+						</div>
+						<hr>
+						<table class="table table-borderless table-shopping-cart table-responsive">
+
+							<thead class="text-muted">
+								<tr class="small text-uppercase">
+									<th scope="col">Producto</th>
+									<th scope="col">Cant.</th>
+									<th scope="col">Precio neto unitario</th>
+									<th scope="col">Total</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody id="tablePresta">
+								<tr *ngFor="let prod of prodSelected; let i = index;">
+									<td>{{prod.nombre}}
+										<!-- <input type="text" class="form-control" value="{{prod.nombre}}" disabled> -->
+									</td>
+									<td>
+										<input type="number" min="1" class="form-control" (change)="change(i)"
+											[(ngModel)]="prod.cantidad" value="{{prod.cantidad}}">
+									</td>
+									<td>
+										<input type="number" name="" [(ngModel)]="prod.precio" (change)="change(i)"
+											value="{{prod.precio}}" class="form-control">
+									</td>
+									<td>{{prod.total}}
+										<!-- <input type="number" name="" id="" value="{{prod.total}}" class="form-control" readonly> -->
+									</td>
+									<td>
+										<button class="btn btn-sm btn-danger" (click)="retira(i)"> <i
+												class="fa fa-trash"></i></button>
+									</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</aside>
+
+		</div>
+
+	</div>
+</section>

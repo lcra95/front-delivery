@@ -1,0 +1,153 @@
+<section class="section-content padding-y bg">
+	<div class="container">
+		<div class="row">
+			<aside class="col-md-9">
+				<div class="card mb-3">
+					<article class="card-body">
+						<header class="mb-4">
+							<h4 class="card-title">Tu carrito</h4>
+						</header>
+						<div class="row">
+							<div class="col-md-6" *ngFor="let carro of carros">
+								<figure class="itemside  mb-3">
+									<div class="aside"><img src="http://localhost:5000/imagen/{{carro.imagen}}"
+											class="border img-xs"></div>
+									<figcaption class="info">
+										<p>{{carro.nombre}} </p>
+										<span>{{carro.cantidad}} x ${{carro.precio}} = Total: ${{carro.sub_total}}
+										</span>
+									</figcaption>
+								</figure>
+							</div>
+
+						</div>
+					</article>
+					<article class="card-body border-top">
+
+						<dl class="row">
+							<dt class="col-sm-10">Subtotal: <span class="float-right text-muted">{{items}} items</span>
+							</dt>
+							<dd class="col-sm-2 text-right"><strong>${{Stotal | number:'1.0-0'}}</strong></dd>
+
+							<dt class="col-sm-10">Descuento: <span class="float-right text-muted">0%</span>
+							</dt>
+							<dd class="col-sm-2 text-danger text-right"><strong>$0</strong></dd>
+
+							<dt class="col-sm-10" *ngIf="delivery">Delivery: <span
+									class="float-right text-muted">{{kilometros}} kilometros</span></dt>
+							<dd class="col-sm-2 text-right" *ngIf="delivery"><strong>${{mDelivery}}</strong></dd>
+
+							<dt class="col-sm-10">iva: <span class="float-right text-muted">19%</span></dt>
+							<dd class="col-sm-2 text-right text-success"><strong>${{iva | number:'1.0-0'}} </strong></dd>
+
+							<dt class="col-sm-10">Total:</dt>
+							<dd class="col-sm-2 text-right"><strong class="h5 text-dark">${{total | number:'1.0-0'}}</strong></dd>
+						</dl>
+
+					</article>
+				</div>
+
+
+			</aside>
+			<aside class="col-md-3" *ngIf="!newDir">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<label>Entrega</label>
+								<select id="inputState" class="form-control" [(ngModel)]="tipo_entrega"
+									(change)="setTipoEntrega()">
+									<option *ngFor="let entrega of entregas" value="{{entrega.id}}"> {{entrega.nombre}}
+									</option>
+								</select>
+							</div>
+							<div class="itemside col-sm-12 border-bottom" *ngIf="delivery">
+								<p><a class="btn btn-default btn-block" (click)="newDire()"><label>+ Nueva Dirección</label></a></p>
+							</div><br>
+							<div class="itemside col-md-12  border-bottom" *ngIf="delivery">
+								<div class="info ">
+									<div *ngFor="let direccion of direcciones" class="border-bottom">
+										<label for="enum_answer_{{direccion.id}}" class="font-weight-bold text-dark">
+											<input id="enum_answer_{{direccion.id}}" [value]='direccion.id' type="radio" name="enums" [(ngModel)]="dirselect">
+											{{direccion.direccion_escrita}} 
+											<small>N° {{direccion.numero}} - {{direccion.tipo_direccion}} - {{direccion.departamento}}</small><br>
+											<small>{{direccion.comuna}} &nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Editar</a></small>
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group col-md-12">
+								<label>Forma de Pago</label>
+								<select id="inputState" class="form-control" [(ngModel)]="tipo_pago"
+									(change)="setTipoPago()">
+									<option *ngFor="let pago of pagos" value="{{pago.id}}"> {{pago.nombre}}</option>
+								</select>
+							</div>
+							<div class="itemside col-md-12  border-bottom" *ngIf="transfer">
+								<div class="info ">
+									<div *ngFor="let cuenta of cuentas" class="border-bottom">
+										<p><strong>Titular: </strong>{{cuenta.nombre}}</p>
+										<p><strong>Identidad: </strong>{{cuenta.identificacion}}</p>
+										<p><strong>Tipo cuenta: </strong>{{cuenta.tipo_cuenta}}</p>
+										<p><strong>N° cuenta: </strong>{{cuenta.numero}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="itemside col-md-12  border-bottom">
+								<a class="btn btn-primary btn-block" (click)="finalizar()"> Finalizar </a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</aside>
+			<!--NUEVA DIRECCION-->
+			<aside class="col-md-3" *ngIf="newDir">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<label>Edificación</label>
+								<select class="custom-select form-control" [(ngModel)]="registro.tipo" >
+									<option value="1">Seleccione...</option>
+									<option *ngFor="let tipo of tipos" value="{{tipo.id}}">{{tipo.nombre}}</option>
+								</select>
+							</div>
+							<div class="form-group col-md-12">
+								<label>Comuna</label>
+								<select class="custom-select form-control" [(ngModel)]="registro.comuna">
+									<option value="1">Seleccione...</option>
+									<option *ngFor="let comuna of comunas" value="{{comuna.id}}">{{comuna.nombre}}</option>
+								</select>
+							</div>
+							<div class="form-group col-md-12">
+								<label>Dirección</label>
+								<input type="text" [(ngModel)]="registro.direccion" class="form-control" placeholder="Calle, Numero, N° local, N° depto">
+							</div>
+							<div class="form-group col-md-12">
+								<label>Número</label>
+								<input type="text" [(ngModel)]="registro.numerod" class="form-control" placeholder="Numero">
+							</div>
+							<div class="form-group col-md-12">
+								<label>Departamento</label>
+								<input type="text"  [(ngModel)]="registro.departamento" class="form-control" placeholder="Departamento, Local">
+							</div>
+
+							<div class="itemside col-md-12  border-bottom">
+								<a class="btn btn-primary btn-block" (click)="guardarDir()"> Finalizar </a>
+							</div>
+
+							<div class="itemside col-md-12  border-bottom">
+								<a class="btn btn-danger btn-block" (click)="newDir = false"> Volver </a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</aside>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,130 @@
+<section class="section-content padding-y">
+    <div class="container">
+
+        <div class="row">
+            <aside class="col-md-3">
+
+                <div class="card">
+                    <article class="filter-group">
+                        <header class="card-header">
+                            <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true"
+                                class="">
+                                <i class="icon-control fa fa-chevron-down"></i>
+                                <h6 class="title">Tipo de producto</h6>
+                            </a>
+                        </header>
+                        <div class="filter-content collapse show" id="collapse_1" style="">
+                            <div class="card-body">
+                                <form class="pb-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-light" type="button"><i
+                                                    class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <ul class="list-menu" *ngFor="let tipo of tipos">
+                                    <li><a class="btn" (click)="filter(tipo.id)">{{tipo.nombre}} </a></li>
+                                </ul>
+
+                            </div> 
+                        </div>
+                    </article> 
+                </div> 
+
+            </aside> 
+            <main class="col-md-9">
+
+                <header class="border-bottom mb-4 pb-3">
+                    <div class="form-inline">
+                        <span class="mr-md-auto">{{count}} productos encontrados </span>
+                        <!-- <select class="mr-2 form-control">
+                            <option>Latest items</option>
+                            <option>Trending</option>
+                            <option>Most Popular</option>
+                            <option>Cheapest</option>
+                        </select> -->
+                        <!-- <div class="btn-group">
+                            <a href="#" class="btn btn-outline-secondary active" data-toggle="tooltip"
+                                title="List view">
+                                <i class="fa fa-bars"></i></a>
+                            <a href="#" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view">
+                                <i class="fa fa-th"></i></a>
+                        </div> -->
+                    </div>
+                </header>
+
+
+                <article class="card card-product-list" *ngFor="let producto of productos">
+                    <div class="row no-gutters">
+                        <aside class="col-md-3">
+                            <a href="#" class="img-wrap">
+                                <span class="badge badge-danger"> NEW </span>
+                                <img src="http://localhost:5000/imagen/{{producto.imagen}}">
+                            </a>
+                        </aside> 
+                        <div class="col-md-6">
+                            <div class="info-main">
+                                <a href="#" class="h5 title">{{producto.nombre}}  </a>
+                                <div class="rating-wrap mb-3">
+                                    <ul class="rating-stars">
+                                        <li style="width:80%" class="stars-active"> 
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> 
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> 
+                                        </li>
+                                    </ul>
+                                    <div class="label-rating">9/10</div>
+                                </div> 
+                                
+                                <p> {{producto.descripcion}} </p>
+                            </div> 
+                        </div> 
+                        <aside class="col-sm-3">
+                            <div class="info-aside">
+                                <div class="price-wrap">
+                                    <span class="price h5"> ${{producto.precio}} </span>	
+                                    <!-- <del class="price-old"> $198</del> -->
+                                </div> 
+                                <p class="text-success">Envio gratis</p>
+                                <br>
+                                <p>
+                                    <a class="btn btn-primary btn-block" (click)="verDetalle(producto)"> Detalles </a>
+                                </p>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" min="1" value ="{{producto.cantidad}}" [(ngModel)]="producto.cantidad">
+                                    <span class="input-group-append"><button class="btn btn-light btn-block" (click)="agregarProducto(producto)" ><i class="fa fa-cart-plus"></i> Agregar</button></span>
+                                </div>
+                            </div> 
+                        </aside> 
+                    </div> 
+                </article>
+
+
+
+
+
+
+                <!-- <nav aria-label="Page navigation sample">
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav> -->
+
+            </main> 
+
+        </div>
+
+    </div> 
+</section>

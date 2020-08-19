@@ -1,0 +1,9 @@
+.precio{
+    text-align: right;
+}
+.descripcion{
+    text-align: justify;
+}
+ul {
+    list-style-type: none;
+}
