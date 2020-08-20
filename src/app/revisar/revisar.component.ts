@@ -3,7 +3,6 @@ import { RevisarService } from './revisar.service';
 import { RegistroService } from './../registro/registro.service'
 import { Const } from './../const/url';
 import swal from 'sweetalert';
-import { title } from 'process';
 
 @Component({
 	selector: 'app-revisar',
@@ -107,7 +106,8 @@ export class RevisarComponent implements OnInit {
 						"subject": "Compra en linea",
 						"amount" : this.total,
 						"payment": 1,
-						"urlreturn": "http://localhost:8000/",
+						"urlreturn": Const.host + "/producto",
+						//"urlreturn": "http://nrquena.ddns.net:5000" + "/producto",
 						"urlnotify": Const.URL + "/pagoenlinea"
 					}
 					this.RevisarService.setPagoOnLine(PayKu).subscribe(response =>{

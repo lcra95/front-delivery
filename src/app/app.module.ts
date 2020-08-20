@@ -19,6 +19,9 @@ import { PuntoComponent } from './punto/punto.component';
 import { NgSelect2Module } from 'select2';
 import { StockComponent } from './stock/stock.component';
 import { MaestrosComponent } from './maestros/maestros.component';
+import { TopmenuComponent } from './topmenu/topmenu.component';
+import { SearchComponent } from './search/search.component';
+
 
 const appRoutes: Routes = [
 	{ path: '', component: AppComponent },
@@ -62,6 +65,8 @@ const appRoutes: Routes = [
     PuntoComponent,
     StockComponent,
     MaestrosComponent,
+    TopmenuComponent,
+    SearchComponent,
     
     
     

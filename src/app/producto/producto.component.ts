@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from './producto.service'
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert';
-
+import { TopmenuComponent } from './../topmenu/topmenu.component'
 @Component({
 	selector: 'app-producto',
 	templateUrl: './producto.component.html',
@@ -12,14 +11,14 @@ import swal from 'sweetalert';
 export class ProductoComponent implements OnInit {
 
 	
-	constructor(private ProductoService: ProductoService, private router: Router, private toastr: ToastrService) { }
+	constructor(private ProductoService: ProductoService, private router: Router) { }
 	productos
 	pro
 	cantidad
 	count
 	tipos
 	cart
-	
+	message
 	ngOnInit() {
 
 		var params = null
@@ -101,5 +100,8 @@ export class ProductoComponent implements OnInit {
 			this.count = data['response'].data.info.length	
 		});
 	}
-
+	receiveMessage($event) {
+		this.message = $event
+		alert(this.message)
+	}
 }

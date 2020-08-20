@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StockService } from './stock.service';
 import { PuntoService } from './../punto/punto.service'
-
+import { Const } from './../const/url';
 @Component({
 	selector: 'app-stock',
 	templateUrl: './stock.component.html',
@@ -21,16 +21,24 @@ export class StockComponent implements OnInit {
 	new = true;
 	productos
 	sku = null
+	userInfo
 	constructor(private PuntoService: PuntoService, private StockService: StockService) { }
 
 	ngOnInit() {
+		this.userInfo = JSON.parse(sessionStorage.getItem('user'));	
+		if(!this.userInfo){
+			window.location.replace(Const.host +'/login')
+			return;
+		}else{
 
+			this.sucursales = this.userInfo["data"][0]["sucursales"] 
+		}
 		this.PuntoService.getTipoDocumento().subscribe(data=>{
 			this.documentos = data['response'].data.info
 		})	
-		this.StockService.getSucursales().subscribe(data=>{
-			this.sucursales = data['response'].data.info
-		})
+		// this.StockService.getSucursales().subscribe(data=>{
+		// 	this.sucursales = data['response'].data.info
+		// })
 		this.filtrar();
 
 	}

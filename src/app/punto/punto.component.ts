@@ -4,6 +4,7 @@ import { RevisarService } from './../revisar/revisar.service'
 import { ToastrService } from 'ngx-toastr';
 import { RegistroService } from './../registro/registro.service';
 import swal from 'sweetalert'
+import { Const } from './../const/url';
 @Component({
 	selector: 'app-punto',
 	templateUrl: './punto.component.html',
@@ -30,9 +31,19 @@ export class PuntoComponent implements OnInit {
 	regiones
 	registro = []
 	comunas
+	userInfo = false
+	sucursales 
 	constructor(private PuntoService: PuntoService, private RevisarService: RevisarService,  private toastr: ToastrService, private RegistroService: RegistroService) { }
 
 	ngOnInit() {
+		this.userInfo = JSON.parse(sessionStorage.getItem('user'));	
+		if(!this.userInfo){
+			window.location.replace(Const.host +'/login')
+			return;
+		}else{
+
+			this.sucursales = this.userInfo["data"][0]["sucursales"] 
+		}
 		this.PuntoService.getTipoDocumento().subscribe(data=>{
 			this.documentos = data['response'].data.info
 		})	
@@ -128,9 +139,9 @@ export class PuntoComponent implements OnInit {
 			})
 			return
 		}
-		var userInfo = JSON.parse(sessionStorage.getItem('user'));		
+			
 		var cartInfo = []
-		var persona = userInfo.data[0].id
+		var persona = this.userInfo["data"][0].id
 
 		if (this.infoCliente){
 			persona =  this.infoCliente.id
@@ -150,7 +161,7 @@ export class PuntoComponent implements OnInit {
 		}
 
 		var jsonOrder = {
-			"id_creador": userInfo.data[0].id_usuario,
+			"id_creador": this.userInfo["data"][0].id_usuario,
 			"id_persona": persona,
 			"id_tipo_entrega": 1,
 			"id_sucursal": 1,
