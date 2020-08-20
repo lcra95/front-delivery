@@ -1,136 +1,139 @@
-<section class="section-content padding-y">
-	<div class="container">
-		
-		<div class="row" *ngIf="!newReg">
-			<div class="col-md-12">
-				<h4>Maestros Productos</h4>
-			</div>
-			<div class="col-md-3 mb15">
-				<article class="card card-body">
-					<figure class="text-center">
-						<span class="rounded-circle icon-md bg-primary"><i class="fa fa-bars white"></i></span>
-						<figcaption class="pt-4">
-							<h5 class="title">Tipos de Productos</h5>
-							<p>Administra los tipos de producto de tu negocio</p>
-						</figcaption>
-					</figure> 
-				</article> 
-			</div>
-			<div class="col-md-3 mb15">
-				<article class="card card-body">
-					<figure class="text-center">
-						<a (click)="newProducto()"><span class="rounded-circle icon-md bg-danger"><i class="fa fa-product-hunt white"></i></span></a>
-						<figcaption class="pt-4">
-							<h5 class="title">Productos</h5>
-							<p>Administra los producto de tu negocio</p>
-						</figcaption>
-					</figure> 
-				</article> 
-			</div> 
-			<div class="col-md-3 mb15">
-				<article class="card card-body">
-					<figure class="text-center">
-						<a href="/stock"><span class="rounded-circle icon-md bg-success"><i class="fa fa-list white"></i></span></a>
-						<figcaption class="pt-4">
-							<h5 class="title">Stock</h5>
-							<p>Actualiza y controla el stock de tus productos</p>
-						</figcaption>
-					</figure> 
-				</article> 
-			</div> 
-			<div class="col-md-3 mb15">
-				<article class="card card-body">
-					<figure class="text-center">
-						<a href="#" (click)="lafucn()"><span class="rounded-circle icon-md bg-secondary"><i class="fa fa-percent white"></i></span></a>
-						<figcaption class="pt-4">
-							<h5 class="title">Impuestos</h5>
-							<p>Administra los impuestos que tienen tus productos </p>
-						</figcaption>
-					</figure> 
-				</article> 
-			</div> 
-		</div>
-
-
-		<!-- REGISTRO DE PRODUCTOS -->
-		<div class="row" *ngIf="newReg">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                
-                <div class="card">
-                    <article class="card-body">
-                        <header class="mb-4">
-                            <h4 class="card-title">Nuevo Producto</h4>
-                        </header>
-                            
-
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Nombre</label>
-                                <div class="col">
-                                    <input type="text" [(ngModel)]="registroProd.nombre" class="form-control" placeholder="Nombre">
-                                </div>
-                                
-                            </div>
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Descripción</label>
-                                <div class="col-sm-9">
-                                    <textarea class="form-control" [(ngModel)]="registroProd.descripcion" name="x" id="" cols="30" rows="3"></textarea>
-                                </div>
-                            </div>  
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Sku</label>
-                                <div class="col-sm-9">
-                                    <input type="email"  [(ngModel)]="registroProd.sku" class="form-control" placeholder="SKU">
-                                </div>
-                            </div>
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Código Barras</label>
-                                <div class="col-sm-9">
-                                    <input type="email"  [(ngModel)]="registroProd.barcode" class="form-control" placeholder="Barcode">
-                                </div>
-                            </div>
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Tipo Producto</label>
-                                <div class="col">
-                                    <select class="custom-select form-control" [(ngModel)]="registroProd.tipo_producto" >
-                                        <option value="1">Seleccione...</option>
-                                        <option *ngFor="let tipo of tiposProd" value="{{tipo.id}}">{{tipo.nombre}}</option>
-                                    </select>
-                                </div>
-                            </div>     
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Precio</label>
-                                <div class="col-sm-9">
-                                    <input type="email"  [(ngModel)]="registroProd.precio" class="form-control" placeholder="Precio">
-                                </div>
-                            </div> 
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Iva</label>
-                                <div class="col">
-                                    <select class="custom-select form-control" [(ngModel)]="registroProd.iva" >
-                                        <option value="1">Seleccione...</option>
-                                        <option *ngFor="let iva of ivas" value="{{iva.id}}">{{iva.descripcion}}</option>
-                                    </select>
-                                </div>
-                            </div>      
-    
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Imagen</label>
-                                <div class="col-sm-9">
-                                    <input type="file"  [(ngModel)]="registroProd.email" class="form-control" placeholder="Ex. john@gmail.com">
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit" class="btn btn-block btn-primary" (click)="setProducto()">Registrar</button>
-                                </div>
-                            </div>
-
-                    </article> 
-                    
+<app-search (messageEvent)="receiveMessage($event)"></app-search>
+<div class="container bg">
+    <section class="section-content padding-y">
+        <div class="container">
+            
+            <div class="row" *ngIf="!newReg">
+                <div class="col-md-12">
+                    <h4>Maestros Productos</h4>
                 </div>
+                <div class="col-md-3 mb15">
+                    <article class="card card-body">
+                        <figure class="text-center">
+                            <span class="rounded-circle icon-md bg-primary"><i class="fa fa-bars white"></i></span>
+                            <figcaption class="pt-4">
+                                <h5 class="title">Tipos de Productos</h5>
+                                <p>Administra los tipos de producto de tu negocio</p>
+                            </figcaption>
+                        </figure> 
+                    </article> 
+                </div>
+                <div class="col-md-3 mb15">
+                    <article class="card card-body">
+                        <figure class="text-center">
+                            <a (click)="newProducto()"><span class="rounded-circle icon-md bg-danger"><i class="fa fa-product-hunt white"></i></span></a>
+                            <figcaption class="pt-4">
+                                <h5 class="title">Productos</h5>
+                                <p>Administra los producto de tu negocio</p>
+                            </figcaption>
+                        </figure> 
+                    </article> 
+                </div> 
+                <div class="col-md-3 mb15">
+                    <article class="card card-body">
+                        <figure class="text-center">
+                            <a href="/stock"><span class="rounded-circle icon-md bg-success"><i class="fa fa-list white"></i></span></a>
+                            <figcaption class="pt-4">
+                                <h5 class="title">Stock</h5>
+                                <p>Actualiza y controla el stock de tus productos</p>
+                            </figcaption>
+                        </figure> 
+                    </article> 
+                </div> 
+                <div class="col-md-3 mb15">
+                    <article class="card card-body">
+                        <figure class="text-center">
+                            <a href="#" (click)="lafucn()"><span class="rounded-circle icon-md bg-secondary"><i class="fa fa-percent white"></i></span></a>
+                            <figcaption class="pt-4">
+                                <h5 class="title">Impuestos</h5>
+                                <p>Administra los impuestos que tienen tus productos </p>
+                            </figcaption>
+                        </figure> 
+                    </article> 
+                </div> 
             </div>
-            <div class="col-md-3"></div>
+    
+    
+            <!-- REGISTRO DE PRODUCTOS -->
+            <div class="row" *ngIf="newReg">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    
+                    <div class="card">
+                        <article class="card-body">
+                            <header class="mb-4">
+                                <h4 class="card-title">Nuevo Producto</h4>
+                            </header>
+                                
+    
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Nombre</label>
+                                    <div class="col">
+                                        <input type="text" [(ngModel)]="registroProd.nombre" class="form-control" placeholder="Nombre">
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Descripción</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" [(ngModel)]="registroProd.descripcion" name="x" id="" cols="30" rows="3"></textarea>
+                                    </div>
+                                </div>  
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Sku</label>
+                                    <div class="col-sm-9">
+                                        <input type="email"  [(ngModel)]="registroProd.sku" class="form-control" placeholder="SKU">
+                                    </div>
+                                </div>
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Código Barras</label>
+                                    <div class="col-sm-9">
+                                        <input type="email"  [(ngModel)]="registroProd.barcode" class="form-control" placeholder="Barcode">
+                                    </div>
+                                </div>
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Tipo Producto</label>
+                                    <div class="col">
+                                        <select class="custom-select form-control" [(ngModel)]="registroProd.tipo_producto" >
+                                            <option value="1">Seleccione...</option>
+                                            <option *ngFor="let tipo of tiposProd" value="{{tipo.id}}">{{tipo.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>     
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Precio</label>
+                                    <div class="col-sm-9">
+                                        <input type="email"  [(ngModel)]="registroProd.precio" class="form-control" placeholder="Precio">
+                                    </div>
+                                </div> 
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Iva</label>
+                                    <div class="col">
+                                        <select class="custom-select form-control" [(ngModel)]="registroProd.iva" >
+                                            <option value="1">Seleccione...</option>
+                                            <option *ngFor="let iva of ivas" value="{{iva.id}}">{{iva.descripcion}}</option>
+                                        </select>
+                                    </div>
+                                </div>      
+        
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Imagen</label>
+                                    <div class="col-sm-9">
+                                        <input type="file"  [(ngModel)]="registroProd.email" class="form-control" placeholder="Ex. john@gmail.com">
+                                    </div>
+                                </div>
+                                <div class="form-row mb-2">
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <button type="submit" class="btn btn-block btn-primary" (click)="setProducto()">Registrar</button>
+                                    </div>
+                                </div>
+    
+                        </article> 
+                        
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
         </div>
-	</div>
-</section>
+    </section>
+</div>

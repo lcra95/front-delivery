@@ -1,140 +1,143 @@
-<section class="section-content padding-y">
-    <div class="container"> 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                
-                <div class="card">
-                    <article class="card-body">
-                        <header class="mb-4">
-                            <h4 class="card-title">Registrate</h4>
-                        </header>
-                            <!-- <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">I am a</label>
-                                <div class="col-sm-9 pt-1">
-                                    <label class="custom-control custom-radio custom-control-inline">
-                                        <input class="custom-control-input" checked="" type="radio"
-                                            name="account_type" value="option1">
-                                        <span class="custom-control-label"> Buyer </span>
-                                    </label>
-                                    <label class="custom-control custom-radio custom-control-inline">
-                                        <input class="custom-control-input" type="radio" name="account_type"
-                                            value="option2">
-                                        <span class="custom-control-label"> Seller </span>
-                                    </label>
-                                    <label class="custom-control custom-radio custom-control-inline">
-                                        <input class="custom-control-input" type="radio" name="account_type"
-                                            value="option3">
-                                        <span class="custom-control-label"> Both </span>
-                                    </label>
-                                </div>
-                            </div> -->
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Identificacion</label>
-                                <div class="col">
-                                    <select class="custom-select form-control" >
-                                        <option value="-1">Seleccione...</option>
-                                        <option value="1">RUT</option>
-                                        <option>Pasaporte</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <input type="text"  [(ngModel)]="registro.identificacion" class="form-control" placeholder="Identificacion">
-                                </div>
-                            </div>
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Nombre</label>
-                                <div class="col">
-                                    <input type="text" [(ngModel)]="registro.nombre" class="form-control" placeholder="Nombre">
-                                </div>
-                                <div class="col">
-                                    <input type="text"  [(ngModel)]="registro.apellido" class="form-control" placeholder="Apellido">
-                                </div>
-                            </div>
-        
-        
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Teléfono</label>
-                                <div class="col-9">
-                                    <div class="input-group">
-                                        <select class="custom-select" style="max-width: 120px;">
-                                            <option selected="">+56</option>
-                                           
+<app-search (messageEvent)="receiveMessage($event)"></app-search>
+<div class="container bg">
+    <section class="section-content padding-y">
+        <div class="container"> 
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    
+                    <div class="card">
+                        <article class="card-body">
+                            <header class="mb-4">
+                                <h4 class="card-title">Registrate</h4>
+                            </header>
+                                <!-- <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">I am a</label>
+                                    <div class="col-sm-9 pt-1">
+                                        <label class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" checked="" type="radio"
+                                                name="account_type" value="option1">
+                                            <span class="custom-control-label"> Buyer </span>
+                                        </label>
+                                        <label class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" name="account_type"
+                                                value="option2">
+                                            <span class="custom-control-label"> Seller </span>
+                                        </label>
+                                        <label class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" name="account_type"
+                                                value="option3">
+                                            <span class="custom-control-label"> Both </span>
+                                        </label>
+                                    </div>
+                                </div> -->
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Identificacion</label>
+                                    <div class="col">
+                                        <select class="custom-select form-control" >
+                                            <option value="-1">Seleccione...</option>
+                                            <option value="1">RUT</option>
+                                            <option>Pasaporte</option>
                                         </select>
-                                        <input name="" [(ngModel)]="registro.fono" class="form-control" placeholder="Numero" type="text">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text"  [(ngModel)]="registro.identificacion" class="form-control" placeholder="Identificacion">
                                     </div>
                                 </div>
-                            </div>
-        
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Email</label>
-                                <div class="col-sm-9">
-                                    <input type="email"  [(ngModel)]="registro.email" class="form-control" placeholder="Ex. john@gmail.com">
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Nombre</label>
+                                    <div class="col">
+                                        <input type="text" [(ngModel)]="registro.nombre" class="form-control" placeholder="Nombre">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text"  [(ngModel)]="registro.apellido" class="form-control" placeholder="Apellido">
+                                    </div>
                                 </div>
-                            </div>
-        
-        
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Dirección</label>
-                                <div class="col">
-                                    <select class="custom-select form-control" [(ngModel)]="registro.tipo" >
-                                        <option value="1">Seleccione...</option>
-                                        <option *ngFor="let tipo of tipos" value="{{tipo.id}}">{{tipo.nombre}}</option>
-                                    </select>
+            
+            
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Teléfono</label>
+                                    <div class="col-9">
+                                        <div class="input-group">
+                                            <select class="custom-select" style="max-width: 120px;">
+                                                <option selected="">+56</option>
+                                               
+                                            </select>
+                                            <input name="" [(ngModel)]="registro.fono" class="form-control" placeholder="Numero" type="text">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <select class="custom-select form-control" [(ngModel)]="registro.comuna">
-                                        <option value="1">Seleccione...</option>
-                                        <option *ngFor="let comuna of comunas" value="{{comuna.id}}">{{comuna.nombre}}</option>
-                                    </select>
+            
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email"  [(ngModel)]="registro.email" class="form-control" placeholder="Ex. john@gmail.com">
+                                    </div>
                                 </div>
-                            </div>
-        
-                            <div class="form-group form-row">
-                                <label class="col-md-3"> </label>
-                                <div class="col">
-                                    <input type="text" [(ngModel)]="registro.direccion" class="form-control" placeholder="Calle, Numero, N° local, N° depto">
+            
+            
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Dirección</label>
+                                    <div class="col">
+                                        <select class="custom-select form-control" [(ngModel)]="registro.tipo" >
+                                            <option value="1">Seleccione...</option>
+                                            <option *ngFor="let tipo of tipos" value="{{tipo.id}}">{{tipo.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select class="custom-select form-control" [(ngModel)]="registro.comuna">
+                                            <option value="1">Seleccione...</option>
+                                            <option *ngFor="let comuna of comunas" value="{{comuna.id}}">{{comuna.nombre}}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Dirección Especifica</label>
-                                <div class="col">
-                                    <input type="text" [(ngModel)]="registro.numerod" class="form-control" placeholder="Numero">
+            
+                                <div class="form-group form-row">
+                                    <label class="col-md-3"> </label>
+                                    <div class="col">
+                                        <input type="text" [(ngModel)]="registro.direccion" class="form-control" placeholder="Calle, Numero, N° local, N° depto">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <input type="text"  [(ngModel)]="registro.departamento" class="form-control" placeholder="Departamento, Local">
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Dirección Especifica</label>
+                                    <div class="col">
+                                        <input type="text" [(ngModel)]="registro.numerod" class="form-control" placeholder="Numero">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text"  [(ngModel)]="registro.departamento" class="form-control" placeholder="Departamento, Local">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group form-row">
-                                <label class="col-md-3 col-form-label">Password</label>
-                                <div class="col-6">
-                                    <input type="password" [(ngModel)]="registro.password1" class="form-control mb-3" placeholder="Create password">
-                                    <input type="password" [(ngModel)]="registro.password2" class="form-control" placeholder="Repeat password">
+                                <div class="form-group form-row">
+                                    <label class="col-md-3 col-form-label">Password</label>
+                                    <div class="col-6">
+                                        <input type="password" [(ngModel)]="registro.password1" class="form-control mb-3" placeholder="Create password">
+                                        <input type="password" [(ngModel)]="registro.password2" class="form-control" placeholder="Repeat password">
+                                    </div>
                                 </div>
-                            </div>
-        
-                            <div class="form-group form-row">
-                                <div class="col-sm-9 offset-sm-3">
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <div class="custom-control-label" for="customCheck1">Acepto los <a
-                                                href="#" target="_blank">terminoss y condiciones</a></div>
-                                    </label>
-        
+            
+                                <div class="form-group form-row">
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <div class="custom-control-label" for="customCheck1">Acepto los <a
+                                                    href="#" target="_blank">terminoss y condiciones</a></div>
+                                        </label>
+            
+                                    </div>
                                 </div>
-                            </div>
-        
-                            <div class="form-row mb-2">
-                                <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit" class="btn btn-block btn-primary" (click)="registrar()">Registrar</button>
+            
+                                <div class="form-row mb-2">
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <button type="submit" class="btn btn-block btn-primary" (click)="registrar()">Registrar</button>
+                                    </div>
                                 </div>
-                            </div>
-
-                    </article> 
-                    <div class="card-footer text-center">¿Tienes cuenta? <a href="">Ingresa</a></div>
+    
+                        </article> 
+                        <div class="card-footer text-center">¿Tienes cuenta? <a href="">Ingresa</a></div>
+                    </div>
                 </div>
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
         </div>
-    </div>
-</section>
+    </section>   
+</div>

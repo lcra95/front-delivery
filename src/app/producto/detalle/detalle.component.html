@@ -1,61 +1,64 @@
-<section class="section-content padding-y">
-    <div class="container">
-		<div class="card">
-			<div class="row no-gutters" *ngIf="detalle">
-				<aside class="col-sm-6 border-right">
-					<article class="gallery-wrap">
-						<div class="img-big-wrap">
-							<a href="#"><img src="http://localhost:5000/imagen/{{detalle.imagen}}"></a>
-						</div> 
-						<div class="thumbs-wrap">
-							<a href="#" class="item-thumb"> <img src="http://localhost:5000/imagen/{{detalle.imagen}}"></a>
-							<!-- <a href="#" class="item-thumb"> <img src="../images/items/2.jpg"></a>
-							<a href="#" class="item-thumb"> <img src="../images/items/3.jpg"></a>
-							<a href="#" class="item-thumb"> <img src="../images/items/4.jpg"></a> -->
-						</div> 
-					</article> 
-				</aside>
-				<main class="col-sm-6">
-					<article class="content-body"  *ngIf="ingredientes">
-						<h2 class="title">{{detalle.nombre}}</h2>
 
-						<p>{{detalle.descripcion}}</p>
-						<br>
-						<h5>Ingredientes</h5>
-						<ul *ngFor="let tipo of ingredientes">
-							<li><strong>{{tipo.nombre}}</strong> 
-								<ul class="cols-three">
-									<li *ngFor="let ing of tipo.ingrediente; let i = index;">
-										<input type="checkbox" name="in{{ing.tipo}}" checked [(ngModel)]="tipo.ingrediente[i].checked"> {{ing.nombre}}</li>
-								</ul>
-							</li>
-						</ul>
-						<!-- <ul class="cols-three">
-							<li *ngFor="let tipo of ingredientes">{{tipo.nombre}}
-								<ul>
-									<li *ngFor="let ing of tipo.ingrediente; let i = index;">
-										<input type="checkbox" name="in{{ing.tipo}}" checked id="{{ing.tipo}}"> {{ing.nombre}}</li>
-								</ul>
-							</li>
-						</ul> -->
-						<div class="h3 mb-4">
-							<var class="price h4">$ {{detalle.precio}}</var>
-						</div> 
-
-						<div class="form-row">
-							<!-- <div class="col-4"></div> -->
-							<div class="col-5">
-
-								<div class="input-group">
-									<input type="number" class="form-control" min="1" style="width: 30px;" value ="{{detalle.cantidad}}" [(ngModel)]="detalle.cantidad">
-									<span class="input-group-append"><button class="btn btn-primary btn-block" (click)="agregarProducto(detalle)" ><i class="fa fa-cart-plus"></i> Agregar</button></span>
+<div class="container bg">
+	<section class="section-content padding-y">
+		<div class="container">
+			<div class="card">
+				<div class="row no-gutters" *ngIf="detalle">
+					<aside class="col-sm-6 border-right">
+						<article class="gallery-wrap">
+							<div class="img-big-wrap">
+								<a href="#"><img src="http://localhost:5000/imagen/{{detalle.imagen}}"></a>
+							</div> 
+							<div class="thumbs-wrap">
+								<a href="#" class="item-thumb"> <img src="http://localhost:5000/imagen/{{detalle.imagen}}"></a>
+								<!-- <a href="#" class="item-thumb"> <img src="../images/items/2.jpg"></a>
+								<a href="#" class="item-thumb"> <img src="../images/items/3.jpg"></a>
+								<a href="#" class="item-thumb"> <img src="../images/items/4.jpg"></a> -->
+							</div> 
+						</article> 
+					</aside>
+					<main class="col-sm-6">
+						<article class="content-body"  *ngIf="ingredientes">
+							<h2 class="title">{{detalle.nombre}}</h2>
+	
+							<p>{{detalle.descripcion}}</p>
+							<br>
+							<h5>Ingredientes</h5>
+							<ul *ngFor="let tipo of ingredientes">
+								<li><strong>{{tipo.nombre}}</strong> 
+									<ul class="cols-three">
+										<li *ngFor="let ing of tipo.ingrediente; let i = index;">
+											<input type="checkbox" name="in{{ing.tipo}}" checked [(ngModel)]="tipo.ingrediente[i].checked"> {{ing.nombre}}</li>
+									</ul>
+								</li>
+							</ul>
+							<!-- <ul class="cols-three">
+								<li *ngFor="let tipo of ingredientes">{{tipo.nombre}}
+									<ul>
+										<li *ngFor="let ing of tipo.ingrediente; let i = index;">
+											<input type="checkbox" name="in{{ing.tipo}}" checked id="{{ing.tipo}}"> {{ing.nombre}}</li>
+									</ul>
+								</li>
+							</ul> -->
+							<div class="h3 mb-4">
+								<var class="price h4">$ {{detalle.precio}}</var>
+							</div> 
+	
+							<div class="form-row">
+								<!-- <div class="col-4"></div> -->
+								<div class="col-5">
+	
+									<div class="input-group">
+										<input type="number" class="form-control" min="1" style="width: 30px;" value ="{{detalle.cantidad}}" [(ngModel)]="detalle.cantidad">
+										<span class="input-group-append"><button class="btn btn-primary btn-block" (click)="agregarProducto(detalle)" ><i class="fa fa-cart-plus"></i> Agregar</button></span>
+									</div>
 								</div>
-							</div>
-						</div> 
-
-					</article> 
-				</main> 
-			</div> 
+							</div> 
+	
+						</article> 
+					</main> 
+				</div> 
+			</div>
 		</div>
-	</div>
-</section>
+	</section>
+</div>

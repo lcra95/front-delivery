@@ -12,21 +12,8 @@ export class TopmenuComponent implements OnInit {
 	constructor() { }
 	count = null
 	ngOnInit() {
-		if(!sessionStorage.getItem("cart")){
-			var cart = [];
-			sessionStorage.setItem("cart",JSON.stringify(cart))
-			
-		}else{
-			var self = this
-			setInterval(function(){ 
-				self.count = JSON.parse(sessionStorage.getItem("cart")).length 
-			}, 500);
-			
-					
-		}
+
 
 	}
-	sendMessage() {
-		this.messageEvent.emit(this.message)
-	}
+
 }
