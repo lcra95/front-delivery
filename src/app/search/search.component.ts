@@ -10,6 +10,7 @@ export class SearchComponent implements OnInit {
   @Output() messageEvent = new EventEmitter<string>();
   constructor() { }
   count
+  search
   ngOnInit() {
     if(!sessionStorage.getItem("cart")){
 			var cart = [];
@@ -25,6 +26,7 @@ export class SearchComponent implements OnInit {
 		}
   }
 	sendMessage() {
-		this.messageEvent.emit(this.message)
+		
+		this.messageEvent.emit(this.search)
 	}
 }

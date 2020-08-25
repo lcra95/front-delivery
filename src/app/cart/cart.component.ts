@@ -29,7 +29,10 @@ export class CartComponent implements OnInit {
 		this.cart[index].iva = this.cart[index].fix_iva * this.cart[index].cantidad
 		this.cart[index].precio_bruto = this.cart[index].fix_bruto * this.cart[index].cantidad
 		this.cart[index].sub_total = this.cart[index].precio * this.cart[index].cantidad
-		console.log(this.bruto);
+		this.calculate()
+	}
+	retira(index){
+		this.cart.splice(index,1)
 		this.calculate()
 	}
 	calculate(){
@@ -41,8 +44,7 @@ export class CartComponent implements OnInit {
 		
 		if (this.cart.length > 0){
 			for (var i = 0; i < this.cart.length; i++){
-
-				
+			
 				this.iva = this.iva + this.cart[i].iva 
 				this.bruto = this.bruto + this.cart[i].precio_bruto
 				this.total =  this.total + this.cart[i].sub_total
@@ -50,5 +52,6 @@ export class CartComponent implements OnInit {
 			}
 			
 		}	
+		sessionStorage.setItem("cart", JSON.stringify(this.cart))
 	}
 }

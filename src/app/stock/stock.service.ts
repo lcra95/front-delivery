@@ -13,14 +13,15 @@ export class StockService {
 		return this.http.get(url);
 	}
 	getStock(params) {
-		console.log(params);
-		
 		var filtro = '?'
 		if(params.sku){
 			filtro +='&sku=' +params.sku
 		}
 		if(params.id_sucursal){
 			filtro +='&id_sucursal=' +params.id_sucursal
+		}
+		if (params.producto){
+			filtro +='&producto=' +params.producto
 		}
 		let url = Const.URL + '/stock'+filtro;
 		return this.http.get(url);

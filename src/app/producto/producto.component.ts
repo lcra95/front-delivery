@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from './producto.service'
 import { Router } from '@angular/router';
 import swal from 'sweetalert';
-import { TopmenuComponent } from './../topmenu/topmenu.component'
+
 @Component({
 	selector: 'app-producto',
 	templateUrl: './producto.component.html',
@@ -33,14 +33,8 @@ export class ProductoComponent implements OnInit {
 		});
 		this.ProductoService.getProductos(params).subscribe(data => {
 			this.productos = data['response'].data.info;
-			
-			// for(var i=0; i < this.productos.length; i++ ){
-			// 	this.productos[i].imagen = atob(this.productos[i].imagen);
-			// 	console.log(this.productos[i].imagen);
-				
-				
-			// }
 			this.count = data['response'].data.info.length	
+
 		});
 	}
 	agregarProducto(prod){
@@ -76,13 +70,16 @@ export class ProductoComponent implements OnInit {
 		var detalle = prod.id
 		
 		this.router.navigate(['/detalle', {data : detalle}] );
-		// this.bsModalRef = this.modalService.show(DetalleComponent, {initialState, class: 'modal-lg'});
-	}
-	filter(filtro){
-		console.log(filtro);
 		
-		var params = {
-			"id_tipo_producto" : filtro
+	}
+	filter(filtro = null, nombre = null){
+
+		var params = {}
+		if (filtro){
+			params["id_tipo_producto"]= filtro
+		}
+		if(nombre){
+			params["nombre"]= nombre
 		}
 		this.ProductoService.getTipoProductos().subscribe(data => {
 			this.tipos = data['response'].data.info;
@@ -90,18 +87,12 @@ export class ProductoComponent implements OnInit {
 		});
 		this.ProductoService.getProductos(params).subscribe(data => {
 			this.productos = data['response'].data.info;
-			
-			// for(var i=0; i < this.productos.length; i++ ){
-			// 	this.productos[i].imagen = atob(this.productos[i].imagen);
-			// 	console.log(this.productos[i].imagen);
-				
-				
-			// }
 			this.count = data['response'].data.info.length	
+
 		});
 	}
 	receiveMessage($event) {
 		this.message = $event
-		alert(this.message)
+		this.filter(null, this.message )
 	}
 }
