@@ -60,7 +60,7 @@ export class DetalleComponent implements OnInit {
 		sessionStorage.setItem("cart",JSON.stringify(cart))
 		swal({
 			title : "Producto Agregado",
-			timer : 1500,
+			timer : 1000,
 			icon: "success"
 		})
 	}

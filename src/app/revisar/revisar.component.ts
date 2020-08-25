@@ -83,6 +83,32 @@ export class RevisarComponent implements OnInit {
 	finalizar(){
 		var userInfo = JSON.parse(sessionStorage.getItem('user'));
 		var cartInfo = JSON.parse(sessionStorage.getItem('cart'));
+		var er = false
+		var msj = "Todos los campos son obligatorios"
+		if(!this.tipo_entrega){
+			er = true
+		}
+		if(!this.tipo_pago){
+			er = true
+		}
+		if (this.tipo_entrega == 3 && !this.dirselect){
+			er = true
+			msj = "Debe elegir una dirección para delivery"
+		}
+		if(cartInfo.length == 0){
+			er = true
+			msj = "Debe agregar al menos un producto a su carro de compras"
+		}
+		if(er){ 
+			swal({
+
+				title: "Campos Obligatorios",
+				text : msj,
+				timer: 1000,
+				icon: "error"
+			})
+			return;
+		}
 		var jsonOrder = {
 			"id_creador": userInfo.data[0].id_usuario,
 			"id_persona": userInfo.data[0].id,
@@ -123,7 +149,14 @@ export class RevisarComponent implements OnInit {
 					sessionStorage.removeItem('cart');
 					var cart = [];
 					sessionStorage.setItem("cart",JSON.stringify(cart))
-					window.location.replace(Const.host +'/producto')
+					swal({
+						title: "Muy Bien",
+						text : "Se generó exitosamente la orden " + response["orden"],
+						icon: "success"
+					}).then((value) => {
+						window.location.replace(Const.host +'/producto')
+					});
+					// window.location.replace(Const.host +'/producto')
 				}
 			}
 			
@@ -161,7 +194,7 @@ export class RevisarComponent implements OnInit {
 
 				title: "Campos Obligatorios",
 				text : msj,
-				timer: 1500,
+				timer: 1000,
 				icon: "error"
 			})
 			return;
@@ -186,7 +219,7 @@ export class RevisarComponent implements OnInit {
 
 					title: "OK!",
 					text : response["msj"],
-					timer: 1500,
+					timer: 1000,
 					icon: "success"
 				})
 				for(var x = 0; x < this.comunas.length; x++){
@@ -213,7 +246,7 @@ export class RevisarComponent implements OnInit {
 
 					title: "Error al registrar",
 					text : response["msj"],
-					timer: 1500,
+					timer: 1000,
 					icon: "error"
 				})
 			}

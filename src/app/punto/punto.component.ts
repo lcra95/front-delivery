@@ -134,7 +134,7 @@ export class PuntoComponent implements OnInit {
 
 				title: "Error",
 				text : "Debes iniciar sesión para realizar una venta",
-				timer: 1500,
+				timer: 1000,
 				icon: "error"
 			})
 			return
@@ -191,7 +191,7 @@ export class PuntoComponent implements OnInit {
 
 				title: "Muy Bien",
 				text : "La venta ha sido registrada con exito",
-				timer: 1500,
+				timer: 1000,
 				icon: "Success"
 			})	
 		})
@@ -241,7 +241,7 @@ export class PuntoComponent implements OnInit {
 
 				title: "Error",
 				text : msj,
-				timer: 1500,
+				timer: 1000,
 				icon: "error"
 			})
 			return;
