@@ -8,8 +8,8 @@ import { routing } from './app.routing';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { ProductoComponent } from './producto/producto.component';
-import { DetalleModule } from './producto/detalle/detalle.module'
-import { DetalleComponent } from './producto/detalle/detalle.component';
+// import { DetalleModule } from './detalle/detalle.module'
+import { DetalleComponent } from './detalle/detalle.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CartComponent } from './cart/cart.component';
 import { RegistroComponent } from './registro/registro.component';
@@ -21,6 +21,7 @@ import { StockComponent } from './stock/stock.component';
 import { MaestrosComponent } from './maestros/maestros.component';
 import { TopmenuComponent } from './topmenu/topmenu.component';
 import { SearchComponent } from './search/search.component';
+import { OrdenComponent } from './orden/orden.component';
 
 
 const appRoutes: Routes = [
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
 	{ path: 'punto', component: PuntoComponent },
 	{ path: 'stock', component: StockComponent },
 	{ path: 'maestros', component: MaestrosComponent },
+	{ path: 'orden', component: OrdenComponent },
 
 	{ path: '**', redirectTo: '/login' }
 ];
@@ -47,7 +49,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot(),
-    DetalleModule,
+    // DetalleModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       positionClass: 'toast-top-right',
@@ -67,8 +69,8 @@ const appRoutes: Routes = [
     MaestrosComponent,
     TopmenuComponent,
     SearchComponent,
-    
-    
+    OrdenComponent,
+    DetalleComponent
     
   ],
   providers: [],

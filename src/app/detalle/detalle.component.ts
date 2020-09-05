@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal/';
-import { ProductoService } from './../producto.service'
+import { ProductoService } from './../producto/producto.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert'
+import { Const } from '../const/url';
 @Component({
 	selector: 'app-detalle',
 	templateUrl: './detalle.component.html',
@@ -14,6 +14,8 @@ export class DetalleComponent implements OnInit {
 	ingredientes
 	ing = [];
 	cantidad : any
+	urlImage = Const.URL+'/imagen/'
+	message
 	constructor( private ProductoService: ProductoService, private router: Router, private route: ActivatedRoute) { }
 
 	ngOnInit() {
@@ -63,6 +65,9 @@ export class DetalleComponent implements OnInit {
 			timer : 1000,
 			icon: "success"
 		})
+	}
+	receiveMessage($event) {
+		this.message = $event
 	}
 
 }

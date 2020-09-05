@@ -6,7 +6,7 @@ import { Component, OnInit,Output, EventEmitter } from '@angular/core';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  message: string = "Hello Angular!"
+
   @Output() messageEvent = new EventEmitter<string>();
   constructor() { }
   count

@@ -141,7 +141,14 @@ export class RevisarComponent implements OnInit {
 							sessionStorage.removeItem('cart');
 							var cart = [];
 							sessionStorage.setItem("cart",JSON.stringify(cart))
-							window.location.replace(response["url"])
+							swal({
+								title: "Muy Bien",
+								text : "Se generó exitosamente la orden " + response["orden"],
+								icon: "success"
+							}).then((value) => {
+								window.location.replace(response["url"])
+							});
+							
 						}
 						
 					})

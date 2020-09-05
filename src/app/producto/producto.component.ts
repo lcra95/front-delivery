@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from './producto.service'
 import { Router } from '@angular/router';
 import swal from 'sweetalert';
+import { Const } from '../const/url';
 
 @Component({
 	selector: 'app-producto',
@@ -19,6 +20,7 @@ export class ProductoComponent implements OnInit {
 	tipos
 	cart
 	message
+	urlImage = Const.URL+'/imagen/'
 	ngOnInit() {
 
 		var params = null
@@ -69,7 +71,7 @@ export class ProductoComponent implements OnInit {
 		
 		var detalle = prod.id
 		
-		this.router.navigate(['/detalle', {data : detalle}] );
+		this.router.navigate(['../detalle', {data : detalle}] );
 		
 	}
 	filter(filtro = null, nombre = null){

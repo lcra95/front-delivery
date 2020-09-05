@@ -5,13 +5,13 @@
 			<div class="row">
 				<aside class="col-lg-9">
 					<div class="card">
-						<table class="table table-borderless table-shopping-cart">
+						<table class="table table-responsive table-borderless table-shopping-cart">
 							<thead class="text-muted">
 								<tr class="small text-uppercase">
 									<th scope="col">Producto</th>
 									<th scope="col" width="120">Cantidad</th>
 									<th scope="col" width="120">Precio</th>
-									<th scope="col" class="text-right" width="200"> </th>
+									<th scope="col" class="text-right" width="50"> </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -21,12 +21,12 @@
 											<div class="aside"><img src="http://localhost:5000/imagen/{{prod.imagen}}" class="img-sm"></div>
 											<figcaption class="info">
 												<a href="#" class="title text-dark">{{prod.nombre}}</a>
-												<p class="text-muted small">{{prod.descripcion}} </p>
+												<p class="text-muted small d-none d-md-flex mr-auto">{{prod.descripcion}} </p>
 											</figcaption>
 										</figure>
 									</td>
 									<td>
-										<input type="number" class="form-control" (change)="change(i)" min="1" [(ngModel)]="prod.cantidad">
+										<input type="number" style="size: 5px;" class="form-control" (change)="change(i)" min="1" [(ngModel)]="prod.cantidad">
 									</td>
 									<td>
 										<div class="price-wrap">
