@@ -25,7 +25,7 @@ import { OrdenComponent } from './orden/orden.component';
 
 
 const appRoutes: Routes = [
-	{ path: '', component: AppComponent },
+	{ path: '', component: ProductoComponent },
 	{ path: 'producto', component: ProductoComponent },
 	{ path: 'cart', component: CartComponent },
 	{ path: 'registro', component: RegistroComponent },
