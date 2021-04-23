@@ -7,7 +7,7 @@ import { ProductoService } from './../producto/producto.service'
 })
 export class TopmenuComponent implements OnInit {
 	message: string = "Hello Angular!"
-	perfil = "2"
+	perfil = "1"
 	@Output() messageEvent = new EventEmitter<string>();
 	constructor() { }
 	count = null

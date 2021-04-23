@@ -36,14 +36,14 @@
 								<dd class="col-sm-2 text-danger text-right"><strong>$0</strong></dd>
 	
 								<dt class="col-sm-10" *ngIf="delivery">Delivery: <span
-										class="float-right text-muted">{{kilometros}} kilometros</span></dt>
+										class="float-right text-muted">{{kilometros}}</span></dt>
 								<dd class="col-sm-2 text-right" *ngIf="delivery"><strong>${{mDelivery}}</strong></dd>
 	
 								<dt class="col-sm-10">iva: <span class="float-right text-muted">19%</span></dt>
 								<dd class="col-sm-2 text-right text-success"><strong>${{iva | number:'1.0-0'}} </strong></dd>
 	
 								<dt class="col-sm-10">Total:</dt>
-								<dd class="col-sm-2 text-right"><strong class="h5 text-dark">${{total | number:'1.0-0'}}</strong></dd>
+								<dd class="col-sm-2 text-right"><strong class="h5 text-dark">${{tmonto | number:'1.0-0'}}</strong></dd>
 							</dl>
 	
 						</article>
@@ -70,7 +70,7 @@
 									<div class="info ">
 										<div *ngFor="let direccion of direcciones" class="border-bottom">
 											<label for="enum_answer_{{direccion.id}}" class="font-weight-bold text-dark">
-												<input id="enum_answer_{{direccion.id}}" [value]='direccion.id' type="radio" name="enums" [(ngModel)]="dirselect">
+												<input id="enum_answer_{{direccion.id}}" [value]='direccion.id' type="radio" name="enums" [(ngModel)]="dirselect" (change)="calucarDelivery()">
 												{{direccion.direccion_escrita}} 
 												<small>N° {{direccion.numero}} - {{direccion.tipo_direccion}} - {{direccion.departamento}}</small><br>
 												<small>{{direccion.comuna}} &nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Editar</a></small>

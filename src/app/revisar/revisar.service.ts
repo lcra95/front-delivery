@@ -24,6 +24,10 @@ export class RevisarService {
     let url = Const.URL + '/personafull?id='+id;
     return this.http.get(url);
   }
+  getplaces(id) {
+    let url = Const.URL + '/getplace?id='+id;
+    return this.http.get(url);
+  }
   setOrden(params){
     let url = Const.URL + '/orden';
     return this.http.post(url, params);

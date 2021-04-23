@@ -55,7 +55,7 @@
                             <aside class="col-md-3">
                                 <a href="#" class="img-wrap">
                                     <span class="badge badge-danger"> NEW </span>
-                                    <img src="{{urlImage}}{{producto.imagen}}">
+                                    <img src="{{urlImage}}{{producto.imagen}}" width="80" height="80">
                                 </a>
                             </aside> 
                             <div class="col-md-6">
@@ -83,7 +83,7 @@
                             <aside class="col-sm-3">
                                 <div class="info-aside">
                                     <div class="price-wrap">
-                                        <span class="price h5"> ${{producto.precio}} </span>	
+                                        <span class="price h5"> ${{producto.precio | number:'1.0-0'}} </span>	
                                         <!-- <del class="price-old"> $198</del> -->
                                     </div> 
                                     <p class="text-success">Envio gratis</p>

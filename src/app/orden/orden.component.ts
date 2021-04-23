@@ -13,6 +13,7 @@ export class OrdenComponent implements OnInit {
 	constructor(private OrdenService: OrdenService) { }
 	hoy: string = moment(new Date()).format("DD-MM-YYYY");
 	ordenes
+	//hoy ="30-08-2020"
 	ngOnInit() {
 		var param = {
 			"id_sucursal" :  1,

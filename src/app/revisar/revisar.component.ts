@@ -21,8 +21,8 @@ export class RevisarComponent implements OnInit {
 	items
 	iva = 0
 	total = 0
-	kilometros = 1.3
-	mDelivery = 1000
+	kilometros = ""
+	mDelivery = 0
 	cuentas
 	transfer = false
 	tipo_pago
@@ -31,6 +31,7 @@ export class RevisarComponent implements OnInit {
 	newDir = false
 	tipos
 	comunas
+	tmonto
 	constructor(private RevisarService: RevisarService, private RegistroService: RegistroService) { }
 
 	ngOnInit() {
@@ -46,7 +47,7 @@ export class RevisarComponent implements OnInit {
 			}
 		}
 		
-
+		this.tmonto = this.total
 	
 		this.RevisarService.getTipoEntrega().subscribe(data => {
 			this.entregas = data['response'].data.info
@@ -56,17 +57,20 @@ export class RevisarComponent implements OnInit {
 		})
 	}
 	setTipoEntrega() {
+		
 		if (this.tipo_entrega == 3) {
 			this.delivery = true;
-			this.total = this.mDelivery + this.total
+			this.total = this.total
 			this.direcciones = JSON.parse(sessionStorage.getItem('user')).data[0].direcciones
-
+			
+			this.tmonto = this.total + this.mDelivery
 		} else {
 			this.dirselect = null
 			if(this.delivery){
 				this.total = this.total - this.mDelivery
 			}
 			this.delivery = false;
+			this.tmonto = this.total
 		}
 
 	}
@@ -256,6 +260,25 @@ export class RevisarComponent implements OnInit {
 					timer: 1000,
 					icon: "error"
 				})
+			}
+			
+		})
+	}
+	calucarDelivery(){
+		this.RevisarService.getplaces(this.dirselect).subscribe(data=>{
+			if (data["estado"]  == 1) {
+				
+				this.mDelivery	= data["monto"];
+				this.kilometros =data["distancia"]
+				this.setTipoEntrega()
+			}else{
+				swal({
+
+					title: "Distancia no cubierta",
+					text : "No es posible realizar un despacho a " + data["distancia"] ,
+					icon: "error"
+				})
+				this.dirselect =null
 			}
 			
 		})

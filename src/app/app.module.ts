@@ -22,6 +22,7 @@ import { MaestrosComponent } from './maestros/maestros.component';
 import { TopmenuComponent } from './topmenu/topmenu.component';
 import { SearchComponent } from './search/search.component';
 import { OrdenComponent } from './orden/orden.component';
+import { ContabilidadComponent } from './contabilidad/contabilidad.component';
 
 
 const appRoutes: Routes = [
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
 	{ path: 'stock', component: StockComponent },
 	{ path: 'maestros', component: MaestrosComponent },
 	{ path: 'orden', component: OrdenComponent },
+	{ path: 'cont', component: ContabilidadComponent },
 
 	{ path: '**', redirectTo: '/login' }
 ];
@@ -70,7 +72,8 @@ const appRoutes: Routes = [
     TopmenuComponent,
     SearchComponent,
     OrdenComponent,
-    DetalleComponent
+    DetalleComponent,
+    ContabilidadComponent
     
   ],
   providers: [],
