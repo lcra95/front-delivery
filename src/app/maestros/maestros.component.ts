@@ -11,6 +11,7 @@ export class MaestrosComponent implements OnInit {
 	newReg = false;
 	tiposProd 
 	ivas 
+	file = null
 	constructor(private MaestrosService : MaestrosService, private ProductoService: ProductoService ) { }
 
 	ngOnInit() {
@@ -40,12 +41,20 @@ export class MaestrosComponent implements OnInit {
 			"id_tipo_producto": this.registroProd["tipo_producto"],
 			"precio" : this.registroProd["precio"],
 			"id_iva" : this.registroProd["iva"],
-			"imagen" : image,
+			"imagen" : this.file,
 			"id_cliente" : 1
 		}
+		// console.log(json);
+		
+		// return;
 		this.MaestrosService.setProducto(json).subscribe(response =>{
 			console.log(response);
 			
 		})
+	}
+	onFileSelected(event){
+		this.file = event.target.files[0]
+		console.log(event);
+		
 	}
 }

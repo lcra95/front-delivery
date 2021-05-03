@@ -119,7 +119,7 @@
                                 <div class="form-group form-row">
                                     <label class="col-md-3 col-form-label">Imagen</label>
                                     <div class="col-sm-9">
-                                        <input type="file"  [(ngModel)]="registroProd.email" class="form-control" placeholder="Ex. john@gmail.com">
+                                        <input type="file"  [(ngModel)]="registroProd.imagen" class="form-control" (change)="onFileSelected($event)">
                                     </div>
                                 </div>
                                 <div class="form-row mb-2">
