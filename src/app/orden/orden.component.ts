@@ -40,6 +40,9 @@ export class OrdenComponent implements OnInit {
 			"id" : id,
 			"estado": estado
 		}
+		console.log(this.ordenes);
+		
+		return;
 		this.OrdenService.EditOrden(params).subscribe(response =>{
 			if(response["estado"]== 1){
 				swal({

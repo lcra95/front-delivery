@@ -23,7 +23,8 @@ import { TopmenuComponent } from './topmenu/topmenu.component';
 import { SearchComponent } from './search/search.component';
 import { OrdenComponent } from './orden/orden.component';
 import { ContabilidadComponent } from './contabilidad/contabilidad.component';
-
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 const appRoutes: Routes = [
 	{ path: '', component: ProductoComponent },
@@ -56,7 +57,9 @@ const appRoutes: Routes = [
       timeOut: 2000,
       positionClass: 'toast-top-right',
       preventDuplicates: false
-    })
+    }),
+    AutocompleteLibModule,
+    GooglePlaceModule,
 
   ],
   declarations: [

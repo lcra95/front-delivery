@@ -57,7 +57,7 @@
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label>Entrega</label>
-									<select id="inputState" class="form-control" [(ngModel)]="tipo_entrega"
+									<select id="inputState1" class="form-control" [(ngModel)]="tipo_entrega"
 										(change)="setTipoEntrega()">
 										<option *ngFor="let entrega of entregas" value="{{entrega.id}}"> {{entrega.nombre}}
 										</option>
@@ -96,6 +96,10 @@
 										</div>
 									</div>
 								</div>
+								<div class="form-group col-md-12" *ngIf="efective" >
+									<label>¿Con cuanto Pagas?</label>
+									<input type="text"  [(ngModel)]="vuelto" class="form-control" placeholder="20000">
+								</div>
 								<div class="itemside col-md-12  border-bottom">
 									<a class="btn btn-primary btn-block" (click)="finalizar()"> Finalizar </a>
 								</div>
@@ -126,7 +130,7 @@
 								</div>
 								<div class="form-group col-md-12">
 									<label>Dirección</label>
-									<input type="text" [(ngModel)]="registro.direccion" class="form-control" placeholder="Calle, Numero, N° local, N° depto">
+									<input class="form-control" [(ngModel)]="registro.direccion" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
 								</div>
 								<div class="form-group col-md-12">
 									<label>Número</label>

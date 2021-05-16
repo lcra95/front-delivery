@@ -3,6 +3,7 @@ import { RevisarService } from './revisar.service';
 import { RegistroService } from './../registro/registro.service'
 import { Const } from './../const/url';
 import swal from 'sweetalert';
+import $ from 'jquery'
 
 @Component({
 	selector: 'app-revisar',
@@ -32,10 +33,20 @@ export class RevisarComponent implements OnInit {
 	tipos
 	comunas
 	tmonto
+	vuelto
 	constructor(private RevisarService: RevisarService, private RegistroService: RegistroService) { }
-
+	fadreess = '';
+	place_id = '';
+	options = {
+		componentRestrictions: {
+			country: ['CL']
+		}
+	}
+	efective = false;
+	cambioE = 0;
+	htmlDetalle = ''
 	ngOnInit() {
-		
+
 		this.carros = JSON.parse(sessionStorage.getItem('cart'));
 		this.items = this.carros.length;
 		if (this.carros.length > 0) {
@@ -46,9 +57,9 @@ export class RevisarComponent implements OnInit {
 				this.total = this.total + this.carros[i].sub_total
 			}
 		}
-		
+
 		this.tmonto = this.total
-	
+
 		this.RevisarService.getTipoEntrega().subscribe(data => {
 			this.entregas = data['response'].data.info
 		})
@@ -57,57 +68,81 @@ export class RevisarComponent implements OnInit {
 		})
 	}
 	setTipoEntrega() {
-		
+
 		if (this.tipo_entrega == 3) {
 			this.delivery = true;
 			this.total = this.total
 			this.direcciones = JSON.parse(sessionStorage.getItem('user')).data[0].direcciones
-			
+			if (this.tipo_pago == 1) {
+				this.efective = true;
+			}
 			this.tmonto = this.total + this.mDelivery
 		} else {
 			this.dirselect = null
-			if(this.delivery){
-				this.total = this.total - this.mDelivery
+			if (this.delivery) {
+				this.total = this.total + this.mDelivery - this.mDelivery
 			}
+			this.mDelivery = 0
 			this.delivery = false;
 			this.tmonto = this.total
 		}
 
 	}
 	setTipoPago() {
-		if (this.tipo_pago == 2){
+		if (this.tipo_pago == 2) {
 			this.transfer = true;
 			this.RevisarService.getCuenta().subscribe(data => {
 				this.cuentas = data['response'].data.info
 			})
-		}else{
+			this.efective = false;
+		} else if (this.tipo_pago == 1) {
+			if (this.tipo_entrega == 3) {
+				this.efective = true;
+			}
 			this.transfer = false;
 		}
+		else {
+			this.transfer = false;
+			this.efective = false;
+		}
 	}
-	finalizar(){
+	finalizar() {
 		var userInfo = JSON.parse(sessionStorage.getItem('user'));
 		var cartInfo = JSON.parse(sessionStorage.getItem('cart'));
 		var er = false
 		var msj = "Todos los campos son obligatorios"
-		if(!this.tipo_entrega){
+		if (!this.tipo_entrega) {
 			er = true
 		}
-		if(!this.tipo_pago){
+		if (!this.tipo_pago) {
 			er = true
 		}
-		if (this.tipo_entrega == 3 && !this.dirselect){
+		if (this.tipo_entrega == 3 && !this.dirselect) {
 			er = true
 			msj = "Debe elegir una dirección para delivery"
 		}
-		if(cartInfo.length == 0){
+		if (cartInfo.length == 0) {
 			er = true
 			msj = "Debe agregar al menos un producto a su carro de compras"
 		}
-		if(er){ 
+		if (this.tipo_entrega == 3 && this.tipo_pago == 1 && !this.vuelto) {
+			er = true
+			msj = "Por favor indique con cuanto pagará"
+		}
+		if (this.tmonto > this.vuelto) {
+			er = true
+			msj = "Verifique el monto que pagará"
+		} else {
+			this.cambioE = this.vuelto - this.tmonto
+		}
+		// console.log(this.tipo_entrega ,this.tipo_pago ,this.vuelto);
+
+		// return
+		if (er) {
 			swal({
 
 				title: "Campos Obligatorios",
-				text : msj,
+				text: msj,
 				timer: 1000,
 				icon: "error"
 			})
@@ -118,132 +153,139 @@ export class RevisarComponent implements OnInit {
 			"id_persona": userInfo.data[0].id,
 			"id_tipo_entrega": this.tipo_entrega,
 			"id_sucursal": 1,
-			"id_direccion" : this.dirselect,
-			"pago":{
+			"id_direccion": this.dirselect,
+			"pago": {
 				"monto": this.total,
 				"id_tipo_pago": this.tipo_pago,
 				"voucher": null,
-				"comprobante": null
+				"comprobante": null,
+				"vuelto": this.cambioE,
+				"estado": 2
 			},
 			"detalle": cartInfo
 		}
-		this.RevisarService.setOrden(jsonOrder).subscribe(response=>{
-			if(response["estado"] == 1){
-				if(this.tipo_pago == 3){
+		var orden = null
+		this.RevisarService.setOrden(jsonOrder).subscribe(response => {
+			if (response["estado"] == 1) {
+				orden = response["orden"]
+				
+				if (this.tipo_pago == 3) {
 					var PayKu = {
 						"email": userInfo.data[0].correo,
 						"order": response["orden"],
-						"subject": "Compra en linea",
-						"amount" : this.total,
+						"subject": "Pago orden N° " + orden.toString(),
+						"amount": this.total,
 						"payment": 1,
 						"urlreturn": Const.host + "/producto",
 						//"urlreturn": "http://nrquena.ddns.net:5000" + "/producto",
 						"urlnotify": Const.URL + "/pagoenlinea"
 					}
-					this.RevisarService.setPagoOnLine(PayKu).subscribe(response =>{
-						if (response["id"]) {
+					this.RevisarService.setPagoOnLine(PayKu).subscribe(response1 => {
+						if (response1["id"]) {
 							sessionStorage.removeItem('cart');
 							var cart = [];
-							sessionStorage.setItem("cart",JSON.stringify(cart))
+							sessionStorage.setItem("cart", JSON.stringify(cart))
 							swal({
 								title: "Muy Bien",
-								text : "Se generó exitosamente la orden " + response["orden"],
+								text: "Se generó exitosamente la orden " + orden,
 								icon: "success"
 							}).then((value) => {
-								window.location.replace(response["url"])
+								window.location.replace(response1["url"])
 							});
-							
+
 						}
-						
+
 					})
-				}else{
+				} else {
+					this.sendMail(jsonOrder,orden)
 					sessionStorage.removeItem('cart');
 					var cart = [];
-					sessionStorage.setItem("cart",JSON.stringify(cart))
+					sessionStorage.setItem("cart", JSON.stringify(cart))
 					swal({
 						title: "Muy Bien",
-						text : "Se generó exitosamente la orden " + response["orden"],
+						text: "Se generó exitosamente la orden " + orden,
 						icon: "success"
 					}).then((value) => {
-						window.location.replace(Const.host +'/producto')
+						window.location.replace(Const.host + '/producto')
 					});
 					// window.location.replace(Const.host +'/producto')
 				}
 			}
-			
+
 		})
-		
+
 	}
-	newDire(){
+	newDire() {
 		this.newDir = true;
-		this.RegistroService.getComunas().subscribe(data=>{
+		this.RegistroService.getComunas().subscribe(data => {
 			this.comunas = data['response'].data.info
 		})
-		this.RegistroService.getTipoDireccion().subscribe(data=>{
+		this.RegistroService.getTipoDireccion().subscribe(data => {
 			this.tipos = data['response'].data.info
 		})
 	}
-	guardarDir(){
+	guardarDir() {
 		var dept = null;
 		var er = false;
 		var msj = "Debe llenar todos los campos son obligatorios"
 
-		if(!this.registro['tipo']){
+		if (!this.registro['tipo']) {
 			er = true
 		}
-		if(!this.registro['comuna']){
+		if (!this.registro['comuna']) {
 			er = true
 		}
-		if(!this.registro['direccion']){
+		if (!this.registro['direccion']) {
 			er = true
 		}
-		if(!this.registro['numerod']){
+		if (!this.registro['numerod']) {
 			er = true
 		}
-		if(er){ 
+		if (er) {
 			swal({
 
 				title: "Campos Obligatorios",
-				text : msj,
+				text: msj,
 				timer: 1000,
 				icon: "error"
 			})
 			return;
 		}
-		if(this.registro['departamento']){
+		if (this.registro['departamento']) {
 			dept = this.registro['departamento']
 		}
-		var userInfo = JSON.parse(sessionStorage.getItem('user'));	
+		var userInfo = JSON.parse(sessionStorage.getItem('user'));
 		var jsonDir = {
-			"id_comuna" : this.registro['comuna'],
+			"id_comuna": this.registro['comuna'],
 			"direccion_escrita": this.registro['direccion'],
-			"numero" : this.registro['numerod'],
+			"numero": this.registro['numerod'],
 			"id_tipo_direccion": this.registro['tipo'],
 			"departamento": dept,
-			"id_persona": userInfo.data[0].id
+			"id_persona": userInfo.data[0].id,
+			"id_place": this.place_id
 		}
 		var desComuna = ''
 		var tipoDesc = ''
 		this.RevisarService.setNewDireccion(jsonDir).subscribe(response => {
-			if(response["estado"] == 1){
+			if (response["estado"] == 1) {
 				swal({
 
 					title: "OK!",
-					text : response["msj"],
+					text: response["msj"],
 					timer: 1000,
 					icon: "success"
 				})
-				for(var x = 0; x < this.comunas.length; x++){
-					if(this.comunas[x].id = this.registro['comuna'] ){
+				for (var x = 0; x < this.comunas.length; x++) {
+					if (this.comunas[x].id = this.registro['comuna']) {
 						desComuna = this.comunas[x].nombre
 					}
 				}
-				for(var y = 0; y < this.tipos.length; y++){
-					if(this.tipos[y].id = this.registro['tipo'] ){
+				for (var y = 0; y < this.tipos.length; y++) {
+					if (this.tipos[y].id = this.registro['tipo']) {
 						tipoDesc = this.tipos[y].nombre
 					}
 				}
-				this.RevisarService.personafull(userInfo.data[0].id).subscribe(persona =>{
+				this.RevisarService.personafull(userInfo.data[0].id).subscribe(persona => {
 					userInfo.data = persona;
 					sessionStorage.setItem("user", JSON.stringify(userInfo))
 					this.newDir = false;
@@ -252,35 +294,187 @@ export class RevisarComponent implements OnInit {
 				})
 
 
-			}else{
+			} else {
 				swal({
 
 					title: "Error al registrar",
-					text : response["msj"],
+					text: response["msj"],
 					timer: 1000,
 					icon: "error"
 				})
 			}
-			
+
 		})
 	}
-	calucarDelivery(){
-		this.RevisarService.getplaces(this.dirselect).subscribe(data=>{
-			if (data["estado"]  == 1) {
-				
-				this.mDelivery	= data["monto"];
-				this.kilometros =data["distancia"]
+	calucarDelivery() {
+		this.RevisarService.getplaces(this.dirselect).subscribe(data => {
+			if (data["estado"] == 1) {
+
+				this.mDelivery = data["monto"];
+				this.kilometros = data["distancia"]
 				this.setTipoEntrega()
-			}else{
+			} else {
 				swal({
 
 					title: "Distancia no cubierta",
-					text : "No es posible realizar un despacho a " + data["distancia"] ,
+					text: "No es posible realizar un despacho a " + data["distancia"],
 					icon: "error"
 				})
-				this.dirselect =null
+				this.dirselect = null
 			}
+
+		})
+	}
+	public handleAddressChange(address: any) {
+		this.fadreess = address
+		this.place_id = this.fadreess["place_id"];
+		console.log(this.fadreess["place_id"]);
+		this.registro['direccion'] = this.fadreess["formatted_address"]
+
+	}
+	getContext(jsoninfo) {
+		var html = ''
+		html += `<table width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f5f7fa">
+		<tbody cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td align="center" valign="top">
+					<table cellspacing="0" cellpadding="0" border="0" style="max-width: 100%; padding: 3%; background:white;">
+						<tbody cellspacing="0" cellpadding="0" border="0">
+							<tr>
+								<td align="center" style="text-align: center;">
+									<!-- <img src="{{respuesta.dominio_env + '/api_static/images/logo/' + respuesta.logo_prestador + '?api_key=MTR30LJn0ZjQYFaEIaMRT585PSHZufhjU7KCIvEc'}}"
+												alt="{{respuesta.nombre_prestador}}" style="width: 60%;"> -->
+									<p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+										Estimada (o) ${jsoninfo.nombre}.
+									</p>
+									<p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+										Junto con agradecer su preferencia,
+										le informamos que su orden <b>${jsoninfo.orden}</b> ha sido recepcionada
+									</p>
+	
+	
+								</td>
+							</tr>
+							<tr>
+								<td style="border-bottom: 1px solid rgba(0,0,0,.1); padding: 0; text-transform: uppercase;">
+									<h3>Datos de la orden</h3>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h4 style="margin-bottom: 10px; margin-top: 10px;text-transform: capitalize;">
+										${jsoninfo.nombre} <br>
+										${jsoninfo.telefono}<br>
+										${jsoninfo.email}
+									</h4>
+								</td>
+							</tr>
+							<tr>
+								<td style="border-bottom: 1px solid rgba(0,0,0,.1); padding: 0; text-transform: uppercase;">
+									<h3>Productos </h3>
+								</td>
+							</tr>
+							${this.htmlDetalle}
+							<tr>
+								<td>
+									<br>
+	
+								</td>
+	
+							</tr>
+							<tr>
+								<td>
+									<table style="width:100%">
+										<tr>
+											<td>
+												<table width="100%" style="background: #fff9da; padding: 10px;"												cellspacing="0" cellpadding="0" border="0">
+													<tbody>
+														<tr>
+															<td style="color:#d2a624;">Entrega :</td>
+															<td style="color: #616161;"><b>${jsoninfo.tipo_entrega}</b></td>
+														</tr>
+														<tr>
+															<td style="color:#d2a624;">Pago</td>
+															<td style="color: #616161;"><b>${jsoninfo.tipo_pago}</b></td>
+														</tr>
+														<tr>
+															<td style="color:#d2a624;">Direccion :</td>
+															<td style="color: #616161;"><b>${jsoninfo.direccion}</b></td>
+														</tr>
+													</tbody>
+												</table>
+	
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+	
+							<tr>
+								<td colspan="3"> <br><br> </td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>`
+
+	return html
+	}
+
+	sendMail(json, orden){
+		var Info = JSON.parse(sessionStorage.getItem('user'))
+		var dir = ''
+
+		
+		for (var x = 0; x < Info.data[0].direcciones.length; x++){
+			console.log(Info.data[0].direcciones[x].id, "here");
+			if(Info.data[0].direcciones[x].id == json.id_direccion){
+				dir = Info.data[0].direcciones[x].direccion_escrita +', ' + Info.data[0].direcciones[x].tipo_direccion +', ' + Info.data[0].direcciones[x].departamento.toString()
+			}
+		}
+		for (var y = 0; y < json.detalle.length; y++){
+			this.htmlDetalle +=`
+			<tr>
+				<td>
+					<label style="margin-bottom: 10px; margin-top: 10px;"> 
+						${json.detalle[y].cantidad} x ${json.detalle[y].nombre} : ${json.detalle[y].sub_total}
+					</label>
+				</td>
+			</tr>`
+		}
+		var dataMail = {
+			"nombre": Info.data[0].nombre +' '+ Info.data[0].apellido_paterno,
+			"telefono" : '+56 ' + Info.data[0].telefono.toString(),
+			"email" : Info.data[0].correo,
+			"direccion": dir,
+			"detalle" : json.detalle,
+			"orden" : orden,
+			"tipo_entrega" : $("#inputState1 option:selected").text(),
+			"tipo_pago" : $("#inputState option:selected").text(),
+
+		}
+		var context = this.getContext(dataMail);
+		var sendin = {
+			"sender": {
+				"name": "No-Reply",
+				"email": "no-reply@rypsystems.cl"
+			},
+			"to": [
+				{
+					"email":  Info.data[0].correo,
+					"name": Info.data[0].nombre +' '+ Info.data[0].apellido_paterno
+				}
+			],
+			"textContent": this.getContext(dataMail),
+			"subject": "Gracias por su compra, Orden N° " + orden.toString()
+		}
+		this.RegistroService.sendinBlue(sendin).subscribe(response=>{
+			console.log("response");
 			
 		})
+
+
 	}
 }

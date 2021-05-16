@@ -31,7 +31,7 @@
                                         </label>
                                     </div>
                                 </div> -->
-                                <div class="form-group form-row">
+                                <!-- <div class="form-group form-row">
                                     <label class="col-md-3 col-form-label">Identificacion</label>
                                     <div class="col">
                                         <select class="custom-select form-control" >
@@ -43,7 +43,7 @@
                                     <div class="col">
                                         <input type="text"  [(ngModel)]="registro.identificacion" class="form-control" placeholder="Identificacion">
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group form-row">
                                     <label class="col-md-3 col-form-label">Nombre</label>
                                     <div class="col">
@@ -79,34 +79,27 @@
                                 <div class="form-group form-row">
                                     <label class="col-md-3 col-form-label">Dirección</label>
                                     <div class="col">
+                                        <input class="form-control" [(ngModel)]="registro.direccion" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+                                        <!-- <input type="text" [(ngModel)]="registro.direccion" class="form-control" placeholder="Calle, Numero, N° local, N° depto"> -->
+                                    </div>
+
+                                </div>
+            
+                                <div class="form-group form-row">
+                                    <label class="col-md-3"> </label>
+                                    <div class="col">
                                         <select class="custom-select form-control" [(ngModel)]="registro.tipo" >
                                             <option value="1">Seleccione...</option>
                                             <option *ngFor="let tipo of tipos" value="{{tipo.id}}">{{tipo.nombre}}</option>
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <select class="custom-select form-control" [(ngModel)]="registro.comuna">
-                                            <option value="1">Seleccione...</option>
-                                            <option *ngFor="let comuna of comunas" value="{{comuna.id}}">{{comuna.nombre}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-            
-                                <div class="form-group form-row">
-                                    <label class="col-md-3"> </label>
-                                    <div class="col">
-                                        <input type="text" [(ngModel)]="registro.direccion" class="form-control" placeholder="Calle, Numero, N° local, N° depto">
-                                    </div>
-                                </div>
-                                <div class="form-group form-row">
-                                    <label class="col-md-3 col-form-label">Dirección Especifica</label>
-                                    <div class="col">
-                                        <input type="text" [(ngModel)]="registro.numerod" class="form-control" placeholder="Numero">
-                                    </div>
-                                    <div class="col">
                                         <input type="text"  [(ngModel)]="registro.departamento" class="form-control" placeholder="Departamento, Local">
                                     </div>
+                                    
+
                                 </div>
+
                                 <div class="form-group form-row">
                                     <label class="col-md-3 col-form-label">Password</label>
                                     <div class="col-6">

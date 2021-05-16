@@ -15,7 +15,6 @@ export class ContabilidadComponent implements OnInit {
   tipo_movimiento
   disabled = false;
   constructor(private MovimientoService: MovimientoService,) { }
-
   ngOnInit() {
   }
   registrar(){

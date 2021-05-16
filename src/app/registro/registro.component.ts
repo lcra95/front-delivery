@@ -14,6 +14,13 @@ export class RegistroComponent implements OnInit {
 	comunas
 	tipos
 	registro = []
+	fadreess = '';
+	place_id = '';
+	options = {
+		componentRestrictions: {
+			country: ['CL']
+		}
+	}
 	ngOnInit() {
 		this.RegistroService.getComunas().subscribe(data=>{
 			this.comunas = data['response'].data.info
@@ -36,9 +43,9 @@ export class RegistroComponent implements OnInit {
 		if(!this.registro['email']){
 			er = true
 		}
-		if(!this.registro['numerod']){
-			er = true
-		}
+		// if(!this.registro['numerod']){
+		// 	er = true
+		// }
 		if(!this.registro['apellido']){
 			er = true
 		}
@@ -48,9 +55,9 @@ export class RegistroComponent implements OnInit {
 		if(!this.registro['tipo']){
 			er = true
 		}
-		if(!this.registro['comuna']){
-			er = true
-		}
+		// if(!this.registro['comuna']){
+		// 	er = true
+		// }
 		if(!this.registro['direccion']){
 			er = true
 		}
@@ -90,7 +97,8 @@ export class RegistroComponent implements OnInit {
 			"password" : this.registro['password1'],
 			"numerod" : this.registro['numerod'],
 			"departamento" : dept,
-			"registro": 1
+			"registro": 1,
+			"id_place": this.place_id
 		}
 
 		this.RegistroService.setRegistro(jsPersona).subscribe(data => {
@@ -154,5 +162,12 @@ export class RegistroComponent implements OnInit {
 		</html>`
 
 		return html
+	}
+	public handleAddressChange(address: any) {
+		this.fadreess = address
+		this.place_id = this.fadreess["place_id"];
+		console.log(this.fadreess["place_id"]);
+		this.registro['direccion'] =  this.fadreess["formatted_address"]
+		
 	}
 }
