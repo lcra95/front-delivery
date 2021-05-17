@@ -232,15 +232,15 @@ export class RevisarComponent implements OnInit {
 		if (!this.registro['tipo']) {
 			er = true
 		}
-		if (!this.registro['comuna']) {
-			er = true
-		}
+		// if (!this.registro['comuna']) {
+		// 	er = true
+		// }
 		if (!this.registro['direccion']) {
 			er = true
 		}
-		if (!this.registro['numerod']) {
-			er = true
-		}
+		// if (!this.registro['numerod']) {
+		// 	er = true
+		// }
 		if (er) {
 			swal({
 
@@ -268,6 +268,7 @@ export class RevisarComponent implements OnInit {
 		var tipoDesc = ''
 		this.RevisarService.setNewDireccion(jsonDir).subscribe(response => {
 			if (response["estado"] == 1) {
+				this.calucarDelivery(response["id_direccion"])
 				swal({
 
 					title: "OK!",
@@ -306,7 +307,10 @@ export class RevisarComponent implements OnInit {
 
 		})
 	}
-	calucarDelivery() {
+	calucarDelivery(direccion =null) {
+		if (direccion){
+			this.dirselect = direccion
+		}
 		this.RevisarService.getplaces(this.dirselect).subscribe(data => {
 			if (data["estado"] == 1) {
 
@@ -328,7 +332,6 @@ export class RevisarComponent implements OnInit {
 	public handleAddressChange(address: any) {
 		this.fadreess = address
 		this.place_id = this.fadreess["place_id"];
-		console.log(this.fadreess["place_id"]);
 		this.registro['direccion'] = this.fadreess["formatted_address"]
 
 	}
