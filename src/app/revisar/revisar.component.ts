@@ -34,6 +34,8 @@ export class RevisarComponent implements OnInit {
 	comunas
 	tmonto
 	vuelto
+	id_persona
+	id_direccion
 	constructor(private RevisarService: RevisarService, private RegistroService: RegistroService) { }
 	fadreess = '';
 	place_id = '';
@@ -45,6 +47,7 @@ export class RevisarComponent implements OnInit {
 	efective = false;
 	cambioE = 0;
 	htmlDetalle = ''
+	confirmado = false
 	ngOnInit() {
 
 		this.carros = JSON.parse(sessionStorage.getItem('cart'));
@@ -66,13 +69,16 @@ export class RevisarComponent implements OnInit {
 		this.RevisarService.getTipoPago().subscribe(data => {
 			this.pagos = data['response'].data.info
 		})
+		this.RegistroService.getTipoDireccion().subscribe(data=>{
+			this.tipos = data['response'].data.info
+		})
 	}
 	setTipoEntrega() {
 
 		if (this.tipo_entrega == 3) {
 			this.delivery = true;
 			this.total = this.total
-			this.direcciones = JSON.parse(sessionStorage.getItem('user')).data[0].direcciones
+			// this.direcciones = JSON.parse(sessionStorage.getItem('user')).data[0].direcciones
 			if (this.tipo_pago == 1) {
 				this.efective = true;
 			}
@@ -148,12 +154,13 @@ export class RevisarComponent implements OnInit {
 			})
 			return;
 		}
+
 		var jsonOrder = {
-			"id_creador": userInfo.data[0].id_usuario,
-			"id_persona": userInfo.data[0].id,
+			"id_creador": 1,
+			"id_persona": this.id_persona,
 			"id_tipo_entrega": this.tipo_entrega,
 			"id_sucursal": 1,
-			"id_direccion": this.dirselect,
+			"id_direccion": 1,
 			"pago": {
 				"monto": this.total,
 				"id_tipo_pago": this.tipo_pago,
@@ -162,20 +169,25 @@ export class RevisarComponent implements OnInit {
 				"vuelto": this.cambioE,
 				"estado": 2
 			},
-			"detalle": cartInfo
+			"detalle": cartInfo,
+
 		}
 		var orden = null
 		this.RevisarService.setOrden(jsonOrder).subscribe(response => {
 			if (response["estado"] == 1) {
 				orden = response["orden"]
 				
-				if (this.tipo_pago == 3) {
+				if (this.tipo_pago == 3 || this.tipo_pago ==8 ) {
+					var tipoP =1; 
+					if (this.tipo_pago ==8){
+						tipoP = 8;
+					}
 					var PayKu = {
-						"email": userInfo.data[0].correo,
+						"email": this.registro["email"],
 						"order": response["orden"],
 						"subject": "Pago orden N° " + orden.toString(),
 						"amount": this.total,
-						"payment": 1,
+						"payment": tipoP,
 						"urlreturn": Const.host + "/producto",
 						//"urlreturn": "http://nrquena.ddns.net:5000" + "/producto",
 						"urlnotify": Const.URL + "/pagoenlinea"
@@ -480,4 +492,138 @@ export class RevisarComponent implements OnInit {
 
 
 	}
+	confirmarDatos(){
+		var dept = null;
+		var er = false;
+		var msj = "Todos los campos son obligatorios"
+		// if(!this.registro['identificacion']){
+		// 	er = true
+		// }
+		if(!this.registro['nombre']){
+			er = true
+		}
+		if(!this.registro['email']){
+			er = true
+		}
+		// if(!this.registro['numerod']){
+		// 	er = true
+		// }
+		if(!this.registro['apellido']){
+			er = true
+		}
+		if(!this.registro['fono']){
+			er = true
+		}
+		if(!this.registro['tipo']){
+			er = true
+		}
+		// if(!this.registro['comuna']){
+		// 	er = true
+		// }
+		if(!this.registro['direccion']){
+			er = true
+		}
+		// if(!this.registro['password1']){
+		// 	er = true
+		// }
+		// if(!this.registro['password2']){
+		// 	er = true
+		// }
+		// if(this.registro['password2'] != this.registro['password1']){
+		// 	er = true;
+		// 	msj = "Los passwords no coinciden"
+		// }
+		if(er){ 
+			swal({
+
+				title: "Campos Obligatorios",
+				text : msj,
+				timer: 2000,
+				icon: "error"
+			})
+			return;
+		}
+		if(this.registro['departamento']){
+			dept = this.registro['departamento']
+		}
+		var jsPersona = {
+			"identificacion": this.registro['identificacion'],
+			//"identificacion": null,
+			"nombre" : this.registro['nombre'],
+			"apellido" : this.registro['apellido'],
+			"id_comuna" : this.registro['comuna'],
+			"id_tipo_direccion" : this.registro['tipo'],
+			"numero" : this.registro['fono'],
+			"email" : this.registro['email'],
+			"direccion" : this.registro['direccion'],
+			"password" : "12345",
+			"numerod" : this.registro['numerod'],
+			"departamento" : dept,
+			"registro": 1,
+			"id_place": this.place_id
+		}
+
+		this.RegistroService.setRegistro(jsPersona).subscribe(data => {
+			if (data["estado"] == 1) {
+				sessionStorage.setItem("user", JSON.stringify(data))
+				this.id_persona = data["data"][0].id
+				this.id_direccion = data["data"][0]["direcciones"][0].id;
+				this.calucarDelivery(this.id_direccion)	
+				var sendin = {
+					"sender": {
+						"name": "No-Reply",
+						"email": "no-reply@rypsystems.cl"
+					},
+					"to": [
+						{
+							"email": this.registro['email'],
+							"name": this.registro['nombre'] +' ' +  this.registro['apellido']
+						}
+					],
+					"textContent": this.getContext1(),
+					"subject": "Bienvenido..!"
+				}
+				this.RegistroService.sendinBlue(sendin).subscribe( data =>{
+					swal({
+
+						title: "Registro Exitoso",
+						text : "Los datos han sido almacenados con éxito",
+						timer: 2000,
+						icon: "success"
+					})
+					
+				})
+
+
+			} else if (data["estado"] == 0) {
+			
+				swal({
+
+					title: "Error",
+					text : "Ha ocurrido un error inesperado",
+					timer: 2000,
+					icon: "error"
+				})
+				return
+			}
+
+		})
+	}
+	getContext1(){
+		var html =`<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Document</title>
+		</head>
+		<body>
+			<div align="center">Ya puedes comenzar a comprar con nosotros</div>
+			
+		</body>
+		</html>`
+
+		return html
+	}
+
 }

@@ -22,7 +22,7 @@ export class CartComponent implements OnInit {
 		if(sessionStorage.getItem('user')){
 			this.router.navigate(['/revisar'] );
 		}else{
-			this.router.navigate(['/login'] );
+			this.router.navigate(['/revisar'] );
 		}
 	}
 	change(index){

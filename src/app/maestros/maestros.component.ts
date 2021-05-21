@@ -44,9 +44,7 @@ export class MaestrosComponent implements OnInit {
 			"imagen" : this.file,
 			"id_cliente" : 1
 		}
-		// console.log(json);
-		
-		// return;
+
 		this.MaestrosService.setProducto(json).subscribe(response =>{
 			console.log(response);
 			
