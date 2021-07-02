@@ -25,6 +25,8 @@ import { OrdenComponent } from './orden/orden.component';
 import { ContabilidadComponent } from './contabilidad/contabilidad.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { CalculadorComponent } from './calculador/calculador.component';
+import { LinkpagoComponent } from './linkpago/linkpago.component';
 
 const appRoutes: Routes = [
 	{ path: '', component: ProductoComponent },
@@ -39,6 +41,7 @@ const appRoutes: Routes = [
 	{ path: 'maestros', component: MaestrosComponent },
 	{ path: 'orden', component: OrdenComponent },
 	{ path: 'cont', component: ContabilidadComponent },
+	{ path: 'calculador', component: CalculadorComponent },
 
 	{ path: '**', redirectTo: '/login' }
 ];
@@ -76,7 +79,9 @@ const appRoutes: Routes = [
     SearchComponent,
     OrdenComponent,
     DetalleComponent,
-    ContabilidadComponent
+    ContabilidadComponent,
+    CalculadorComponent,
+    LinkpagoComponent
     
   ],
   providers: [],

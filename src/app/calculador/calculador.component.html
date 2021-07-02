@@ -1,0 +1,51 @@
+<div class="container bg">
+	<section class="section-content padding-y">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title mb-4">Calculador</h4>
+
+
+							<div class="form-group">
+								<button type="submit" style="position: inherit;" class="btn btn-success" (click)="limpiar()"
+									> Nuevo </button>
+							</div>
+							<div class="form-group">
+								<label>Sucursal</label>
+								<select class="custom-select form-control" [(ngModel)]="sucursal" (change)="origin()">
+
+									<option value="place_id:ChIJm9VYwDTFYpYRMFRGEaj-I9Y">San Miguel</option>
+									<option value="place_id:ChIJe1q-pVPaYpYROdNgxio3-i0">La Cisterna</option>
+
+								</select>
+							</div>
+							<div class="form-group form-row">
+								<label>Dirección</label>
+
+								<input class="form-control" [(ngModel)]="direccion" ngx-google-places-autocomplete
+									[options]='options' #placesRef="ngx-places"
+									(onAddressChange)="handleAddressChange($event)" />
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-block" (click)="calcular()"
+									[disabled]="disabled"> Calcular </button>
+								
+							</div>
+							<div>
+								<H4>Distancia: <p style="color: red;">{{distancia}}</p></H4>
+								<H4>Valor: <p style="color: red;">{{monto}}</p></H4>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</section>
+</div>
