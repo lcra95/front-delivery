@@ -1,0 +1,129 @@
+<app-search (messageEvent)="receiveMessage($event)"></app-search>
+<div class="container bg">
+	<section class="section-content padding-y bg">
+		<div class="container">
+			<div class="row">
+				<aside class="col-md-9">
+					<div class="card">
+						<div class="card-body">
+							<h3>Menú</h3>
+							<div class="form-row">
+								<div class="col-md-3" *ngFor="let menu of menus">
+									<figure class="card card-product-grid">
+										<a  class="img-wrap"> 
+											<img (click)="agregar(menu)" src="{{menu.imagen}}">
+										</a>
+										<figcaption class="info-wrap">
+											<a  class="title" (click)="agregar(menu)">{{menu.nombre}}</a>
+											<div class="mt-2">
+												<var class="price">$ {{menu.precio | number:'1.0-0'}}</var> <!-- price-wrap.// -->
+												<a (click)="agregar(menu)" class="btn btn-sm btn-outline-primary float-right">Add <i class="fa fa-shopping-cart"></i></a>
+											</div> <!-- action-wrap.end -->
+										</figcaption>
+									</figure> <!-- card // -->
+								</div>
+
+
+							</div>
+							<h3>Bebidas</h3>
+							<div class="form-row">
+								<div class="col-md-3" *ngFor="let bebida of bebidas">
+									<figure class="card card-product-grid">
+										<figcaption class="info-wrap">
+											<a class="title" (click)="agregar(bebida)">{{bebida.nombre}}</a>
+											<div class="mt-2">
+												<var class="price">$ {{bebida.precio | number:'1.0-0'}}</var> <!-- price-wrap.// -->
+												<a (click)="agregar(bebida)" class="btn btn-sm btn-outline-primary float-right">Add <i class="fa fa-shopping-cart"></i></a>
+											</div> <!-- action-wrap.end -->
+										</figcaption>
+									</figure> <!-- card // -->
+								</div>
+								
+
+							</div>
+						</div>
+					</div>
+
+
+				</aside>
+
+				<aside class="col-md-3">
+					<div class="card mb-3">
+						<article class="card-body">
+							<header class="mb-4">
+								<h4 class="card-title">Carro</h4>
+							</header>
+							<div class="row">
+								<div class="col-md-6" *ngFor="let carro of carros">
+									<figure class="itemside  mb-3">
+										<div class="aside"><img src="http://localhost:5000/imagen/{{carro.imagen}}"
+												class="border img-xs">
+										</div>
+										<figcaption class="info">
+											<p>{{carro.nombre}} </p>
+											<span>{{carro.cantidad}} x ${{carro.precio}} = Total: ${{carro.sub_total}}
+											</span>
+										</figcaption>
+									</figure>
+								</div>
+
+							</div>
+						</article>
+						<article class="card-body border-top">
+
+							<dl class="row">
+								<dt class="col-sm-8">Subtotal: <span class="float-right text-muted">{{items}}
+										items</span>
+								</dt>
+								<dd class="col-sm-4 text-right"><strong>${{Stotal | number:'1.0-0'}}</strong></dd>
+
+								<dt class="col-sm-8">Descuento: <span class="float-right text-muted">0%</span>
+								</dt>
+								<dd class="col-sm-4 text-danger text-right"><strong>$0</strong></dd>
+
+								<dt class="col-sm-8" *ngIf="delivery">Delivery: <span
+										class="float-right text-muted">{{kilometros}}</span></dt>
+								<dd class="col-sm-4 text-right" *ngIf="delivery"><strong>${{mDelivery}}</strong></dd>
+
+								<dt class="col-sm-8">iva: <span class="float-right text-muted">19%</span></dt>
+								<dd class="col-sm-4 text-right text-success"><strong>${{iva | number:'1.0-0'}} </strong>
+								</dd>
+
+								<dt class="col-sm-8">Total:</dt>
+								<dd class="col-sm-4 text-right"><strong class="h5 text-dark">${{tmonto |
+										number:'1.0-0'}}</strong></dd>
+							</dl>
+							<div class="form-group col-md-12">
+								<label>Forma de Pago</label>
+								<select id="inputState" class="form-control" [(ngModel)]="tipo_pago"
+									(change)="setTipoPago()">
+									<option *ngFor="let pago of pagos" value="{{pago.id}}"> {{pago.nombre}}</option>
+								</select>
+							</div>
+							<div class="itemside col-md-12  border-bottom" *ngIf="transfer">
+								<div class="info ">
+									<div *ngFor="let cuenta of cuentas" class="border-bottom">
+										<p><strong>Titular: </strong>{{cuenta.nombre}}</p>
+										<p><strong>Identidad: </strong>{{cuenta.identificacion}}</p>
+										<p><strong>Tipo cuenta: </strong>{{cuenta.tipo_cuenta}}</p>
+										<p><strong>N° cuenta: </strong>{{cuenta.numero}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-md-12" *ngIf="efective">
+								<label>¿Con cuanto Pagas?</label>
+								<input type="text" [(ngModel)]="vuelto" class="form-control" placeholder="20000">
+							</div>
+							<div class="itemside col-md-12  border-bottom">
+								<a class="btn btn-primary btn-block" (click)="finalizar()"> Finalizar </a>
+							</div>
+						</article>
+					</div>
+
+
+				</aside>
+
+			</div>
+		</div>
+	</section>
+</div>

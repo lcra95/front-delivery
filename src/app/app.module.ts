@@ -27,6 +27,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { CalculadorComponent } from './calculador/calculador.component';
 import { LinkpagoComponent } from './linkpago/linkpago.component';
+import { VentarapidaComponent } from './ventarapida/ventarapida.component';
+import { ModalventaComponent } from './ventarapida/modalventa/modalventa.component';
 
 const appRoutes: Routes = [
 	{ path: '', component: ProductoComponent },
@@ -42,6 +44,8 @@ const appRoutes: Routes = [
 	{ path: 'orden', component: OrdenComponent },
 	{ path: 'cont', component: ContabilidadComponent },
 	{ path: 'calculador', component: CalculadorComponent },
+	{ path: 'generador', component: LinkpagoComponent },
+	{ path: 'venta', component: VentarapidaComponent },
 
 	{ path: '**', redirectTo: '/login' }
 ];
@@ -81,11 +85,13 @@ const appRoutes: Routes = [
     DetalleComponent,
     ContabilidadComponent,
     CalculadorComponent,
-    LinkpagoComponent
+    LinkpagoComponent,
+    VentarapidaComponent,
+    ModalventaComponent
     
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DetalleComponent]
+  entryComponents: [DetalleComponent,ModalventaComponent]
 })
 export class AppModule { }

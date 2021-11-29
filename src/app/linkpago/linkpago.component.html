@@ -1,0 +1,41 @@
+<div class="container bg">
+	<section class="section-content padding-y">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title mb-4">Generador de link de pago</h4>
+
+
+							<div class="form-group">
+								<button type="submit" style="position: inherit;" class="btn btn-success" (click)="limpiar()"
+									> Nuevo </button>
+							</div>
+							<div class="form-group form-row">
+								<label>Monto</label>
+
+								<input class="form-control" [(ngModel)]="monto" />
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-block" (click)="generar()"
+									[disabled]="disabled"> Generar </button>
+								
+							</div>
+							<div>
+								<H5 id="id_link">{{link}}</H5>
+                <button type="submit" style="position: inherit;" class="btn btn-warning " (click)="copiarAlPortapapeles('id_link')"
+                > Copiar </button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</section>
+</div>

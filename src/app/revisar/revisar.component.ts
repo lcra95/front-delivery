@@ -48,6 +48,7 @@ export class RevisarComponent implements OnInit {
 	cambioE = 0;
 	htmlDetalle = ''
 	confirmado = false
+	enable = false
 	ngOnInit() {
 
 		this.carros = JSON.parse(sessionStorage.getItem('cart'));
@@ -160,9 +161,9 @@ export class RevisarComponent implements OnInit {
 			"id_persona": this.id_persona,
 			"id_tipo_entrega": this.tipo_entrega,
 			"id_sucursal": 1,
-			"id_direccion": 1,
+			"id_direccion": this.dirselect,
 			"pago": {
-				"monto": this.total,
+				"monto": this.total + this.mDelivery,
 				"id_tipo_pago": this.tipo_pago,
 				"voucher": null,
 				"comprobante": null,
@@ -170,6 +171,8 @@ export class RevisarComponent implements OnInit {
 				"estado": 2
 			},
 			"detalle": cartInfo,
+			"delivery": this.mDelivery,
+			"kilometros": this.kilometros
 
 		}
 		var orden = null
@@ -441,12 +444,15 @@ export class RevisarComponent implements OnInit {
 	sendMail(json, orden){
 		var Info = JSON.parse(sessionStorage.getItem('user'))
 		var dir = ''
-
+		var depto = null
+		if(Info.data[0].direcciones[x].departamento != null){
+			depto = Info.data[0].direcciones[x].departamento
+		}
 		
 		for (var x = 0; x < Info.data[0].direcciones.length; x++){
 			console.log(Info.data[0].direcciones[x].id, "here");
 			if(Info.data[0].direcciones[x].id == json.id_direccion){
-				dir = Info.data[0].direcciones[x].direccion_escrita +', ' + Info.data[0].direcciones[x].tipo_direccion +', ' + Info.data[0].direcciones[x].departamento.toString()
+				dir = Info.data[0].direcciones[x].direccion_escrita +', ' + Info.data[0].direcciones[x].tipo_direccion +', ' + depto.toString()
 			}
 		}
 		for (var y = 0; y < json.detalle.length; y++){
@@ -514,14 +520,17 @@ export class RevisarComponent implements OnInit {
 		if(!this.registro['fono']){
 			er = true
 		}
-		if(!this.registro['tipo']){
-			er = true
-		}
+
 		// if(!this.registro['comuna']){
 		// 	er = true
 		// }
-		if(!this.registro['direccion']){
-			er = true
+		if(this.tipo_entrega == 3){
+			if(!this.registro['direccion']){
+				er = true
+			}
+			if(!this.registro['tipo']){
+				er = true
+			}
 		}
 		// if(!this.registro['password1']){
 		// 	er = true
