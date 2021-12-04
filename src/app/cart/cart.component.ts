@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Const } from '../const/url';
 
 @Component({
 	selector: 'app-cart',
@@ -14,6 +15,7 @@ export class CartComponent implements OnInit {
 	iva = 0
 	subtotal = 0
 	bruto = 0
+	urlImage = Const.URL+'/imagen/'
 	ngOnInit() {
 		this.cart = JSON.parse(sessionStorage.getItem("cart"));
 		this.calculate()

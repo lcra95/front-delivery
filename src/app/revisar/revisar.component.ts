@@ -49,6 +49,7 @@ export class RevisarComponent implements OnInit {
 	htmlDetalle = ''
 	confirmado = false
 	enable = false
+	urlImage = Const.URL+'/imagen/'
 	ngOnInit() {
 
 		this.carros = JSON.parse(sessionStorage.getItem('cart'));
