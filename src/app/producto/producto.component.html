@@ -1,124 +1,55 @@
 <app-search (messageEvent)="receiveMessage($event)"></app-search>
 <div class="container bg">
-    <section class="section-content padding-y">
-        <div class="container">
-    
-            <div class="row">
-                <aside class="col-md-3">
-    
-                    <div class="card">
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true"
-                                    class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Tipo de producto</h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_1" style="">
-                                <div class="card-body">
-                                    
-                                    <ul class="list-menu" *ngFor="let tipo of tipos">
-                                        <li><a class="btn" (click)="filter(tipo.id)">{{tipo.nombre}} </a></li>
-                                    </ul>
-    
-                                </div> 
-                            </div>
-                        </article> 
-                    </div> 
-    
-                </aside> 
-                <main class="col-md-9">
-    
-                    <header class="border-bottom mb-4 pb-3">
-                        <div class="form-inline">
-                            <span class="mr-md-auto">{{count}} productos encontrados </span>
-                            <!-- <select class="mr-2 form-control">
-                                <option>Latest items</option>
-                                <option>Trending</option>
-                                <option>Most Popular</option>
-                                <option>Cheapest</option>
-                            </select> -->
-                            <!-- <div class="btn-group">
-                                <a href="#" class="btn btn-outline-secondary active" data-toggle="tooltip"
-                                    title="List view">
-                                    <i class="fa fa-bars"></i></a>
-                                <a href="#" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view">
-                                    <i class="fa fa-th"></i></a>
-                            </div> -->
-                        </div>
-                    </header>
-    
-    
-                    <article class="card card-product-list" *ngFor="let producto of productos">
-                        <div class="row no-gutters">
-                            <aside class="col-md-3">
-                                <a href="#" class="img-wrap">
-                                    <span class="badge badge-danger"> NEW </span>
-                                    <img src="{{urlImage}}{{producto.imagen}}" width="80" height="80">
-                                </a>
-                            </aside> 
-                            <div class="col-md-6">
-                                <div class="info-main">
-                                    <a href="#" class="h5 title">{{producto.nombre}}  </a>
-                                    <div class="rating-wrap mb-3">
-                                        <ul class="rating-stars">
-                                            <li style="width:80%" class="stars-active"> 
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                <i class="fa fa-star"></i> 
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                <i class="fa fa-star"></i> 
-                                            </li>
-                                        </ul>
-                                        <div class="label-rating">9/10</div>
-                                    </div> 
-                                    
-                                    <p> {{producto.descripcion}} </p>
-                                </div> 
-                            </div> 
-                            <aside class="col-sm-3">
-                                <div class="info-aside">
-                                    <div class="price-wrap">
-                                        <span class="price h5"> ${{producto.precio | number:'1.0-0'}} </span>	
-                                        <!-- <del class="price-old"> $198</del> -->
-                                    </div> 
-                                    <p class="text-success">Envio gratis</p>
-                                    <br>
-                                    <p>
-                                        <a class="btn btn-primary btn-block" (click)="verDetalle(producto)"> Detalles </a>
-                                    </p>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" min="1" value ="{{producto.cantidad}}" [(ngModel)]="producto.cantidad">
-                                        <span class="input-group-append"><button class="btn btn-light btn-block" (click)="agregarProducto(producto)" ><i class="fa fa-cart-plus"></i> Agregar</button></span>
-                                    </div>
-                                </div> 
-                            </aside> 
-                        </div> 
-                    </article>
-    
-    
-    
-    
-    
-    
-                    <!-- <nav aria-label="Page navigation sample">
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav> -->
-    
-                </main> 
-    
-            </div>
-    
-        </div> 
-    </section>
+	<section class="section-content padding-y bg">
+		<div class="container">
+			<div class="row">
+				<aside class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<h3>Menú</h3>
+							<div class="form-row">
+								<div class="col-md-3" *ngFor="let menu of productos">
+									<figure class="card card-product-grid">
+										<a  class="img-wrap"> 
+											<img (click)="agregarProducto(menu)" src="{{urlImage}}{{menu.imagen}}">
+										</a>
+										<figcaption class="info-wrap">
+											<a  class="title" (click)="agregarProducto(menu)">{{menu.nombre}}</a>
+											<div class="mt-2">
+												<var class="price">$ {{menu.precio | number:'1.0-0'}}</var> <!-- price-wrap.// -->
+												<!-- <a (click)="agregar(menu)" class="btn btn-sm btn-outline-primary float-right">Add <i class="fa fa-shopping-cart"></i></a> -->
+												
+												<a (click)="agregarProducto(menu)" class="btn btn-sm btn-outline-primary float-right">Add <i class="fa fa-shopping-cart"></i></a>
+											</div> <!-- action-wrap.end -->
+										</figcaption>
+									</figure> <!-- card // -->
+								</div>
+
+
+							</div>
+							<!-- <h3>Bebidas</h3>
+							<div class="form-row">
+								<div class="col-md-3" *ngFor="let bebida of bebidas">
+									<figure class="card card-product-grid">
+										<figcaption class="info-wrap">
+											<a class="title" (click)="agregar(bebida)">{{bebida.nombre}}</a>
+											<div class="mt-2">
+												<var class="price">$ {{bebida.precio | number:'1.0-0'}}</var> 
+												<a (click)="agregar(bebida)" class="btn btn-sm btn-outline-primary float-right">Add <i class="fa fa-shopping-cart"></i></a>
+											</div> 
+										</figcaption>
+									</figure>
+								</div>
+								
+
+							</div> -->
+						</div>
+					</div>
+
+
+				</aside>
+
+			</div>
+		</div>
+	</section>
 </div>

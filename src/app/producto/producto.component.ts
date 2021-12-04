@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ProductoService } from './producto.service'
 import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { Const } from '../const/url';
+import { ModalventaComponent } from './../ventarapida/modalventa/modalventa.component'
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
 @Component({
 	selector: 'app-producto',
@@ -12,7 +14,7 @@ import { Const } from '../const/url';
 export class ProductoComponent implements OnInit {
 
 	
-	constructor(private ProductoService: ProductoService, private router: Router) { }
+	constructor(private ProductoService: ProductoService, private router: Router,private modalService: BsModalService) { }
 	productos
 	pro
 	cantidad
@@ -21,6 +23,7 @@ export class ProductoComponent implements OnInit {
 	cart
 	message
 	urlImage = Const.URL+'/imagen/'
+	bsModalRef: BsModalRef;
 	ngOnInit() {
 
 		var params = null
@@ -36,34 +39,43 @@ export class ProductoComponent implements OnInit {
 		this.ProductoService.getProductos(params).subscribe(data => {
 			this.productos = data['response'].data.info;
 			this.count = data['response'].data.info.length	
-
+			sessionStorage.setItem("menu",JSON.stringify(this.productos))
 		});
 	}
 	agregarProducto(prod){
-		var sub_total = prod.precio * prod.cantidad
-		var agcart = {
-			"id": prod.id,
-			"nombre" : prod.nombre,
-			"precio" : prod.precio,
-			"precio_bruto": prod.fix_precio_bruto * prod.cantidad,
-			"cantidad" : prod.cantidad,
-			"sub_total" : sub_total,
-			"detalle" : {},
-			"descripcion": prod.descripcion,
-			"imagen": prod.imagen,
-			"iva" : prod.fix_iva * prod.cantidad,
-			"fix_iva" : prod.fix_iva,
-			"fix_bruto": prod.fix_precio_bruto
-		}
+
+		const config: ModalOptions = {
+			backdrop: 'static',
+			keyboard: false,
+			animated: true,
+			ignoreBackdropClick: true,
+			initialState: prod
+		  };
+		this.bsModalRef = this.modalService.show(ModalventaComponent, config);
+		// var sub_total = prod.precio * prod.cantidad
+		// var agcart = {
+		// 	"id": prod.id,
+		// 	"nombre" : prod.nombre,
+		// 	"precio" : prod.precio,
+		// 	"precio_bruto": prod.fix_precio_bruto * prod.cantidad,
+		// 	"cantidad" : prod.cantidad,
+		// 	"sub_total" : sub_total,
+		// 	"detalle" : {},
+		// 	"descripcion": prod.descripcion,
+		// 	"imagen": prod.imagen,
+		// 	"iva" : prod.fix_iva * prod.cantidad,
+		// 	"fix_iva" : prod.fix_iva,
+		// 	"fix_bruto": prod.fix_precio_bruto
+		// }
 		
-		var cart = JSON.parse(sessionStorage.getItem("cart"));
-		cart.push(agcart)
-		sessionStorage.setItem("cart",JSON.stringify(cart))
-		swal({
-			title : "Producto Agregado",
-			timer : 1000,
-			icon: "success"
-		})
+		// var cart = JSON.parse(sessionStorage.getItem("cart"));
+		// cart.push(agcart)
+		// sessionStorage.setItem("cart",JSON.stringify(cart))
+		// swal({
+		// 	title : "Producto Agregado",
+		// 	timer : 1000,
+		// 	icon: "success"
+		// })
 		
 		
 	}

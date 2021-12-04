@@ -1,68 +1,71 @@
+<div class="modal-header">
+	<h2 class="title">{{nombre}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
 
-<div class="card">
-	<div class="row no-gutters">
-		<main class="col-md-12 border-left">
-			<article class="content-body">
+<div class="modal-body">
+	<!-- <a  class="img-wrap"> 
+						<img  src="{{urlImage}}{{imagen}}" height="20%">
+					</a> -->
+	<!-- <div class="rating-wrap my-3">
+						<ul class="rating-stars">
+							<li style="width:80%" class="stars-active">
+								<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+								<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</li>
+							<li>
+								<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+								<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</li>
+						</ul>
+						<small class="label-rating text-muted">132 reviews</small>
+						<small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 orders </small>
+					</div> -->
 
-				<h2 class="title">{{nombre}}</h2>
-				<a  class="img-wrap"> 
-					<img  src="{{imagen}}" height="40%">
-				</a>
-				<div class="rating-wrap my-3">
-					<ul class="rating-stars">
-						<li style="width:80%" class="stars-active">
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</li>
-						<li>
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</li>
-					</ul>
-					<small class="label-rating text-muted">132 reviews</small>
-					<small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 orders </small>
-				</div>
+	<div class="mb-3">
+		<var class="price h4">$ {{precio | number:'1.0-0'}}</var>
 
-				<div class="mb-3">
-					<var class="price h4">$ {{precio | number:'1.0-0'}}</var>
-					
-				</div>
-
-				<p>{{detalle}}
-				</p>
-		
-				<hr>
-				<div class="row" *ngIf="mopcion">
-					<div class="col-md-12">
-					
-						<label for="opcion" >Elige una Opción</label>
-						<select class="form-control" id="opcion" [(ngModel)]="eleccion" >
-							<option value="{{opcion.proteina}}" *ngFor="let opcion of opciones1">{{opcion.proteina}}</option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-
-					<div class="col-md-12">
-						<label for="comentario">Comentario</label>
-						<textarea name="" id="comentario" [(ngModel)]="comentario" rows="2" class="form-control"></textarea>
-						
-					</div>
-				</div><br>
-				<div class="row">
-					<div class="col-md-6">
-						
-					</div>
-					<div class="col-md-6">
-						<div class="input-group">
-							<input type="number" class="form-control" min="1" value="1" style="width: 40px;" [(ngModel)]="cantidad"  >
-							<span class="input-group-append"><button class="btn btn-primary btn-block" (click)="cargar(index)" ><i class="fa fa-cart-plus"></i> Add</button></span>
-						</div>
-					</div>
-				</div>
-			</article>
-		</main>
 	</div>
+
+	<p>{{descripcion}}
+	</p>
+
+	<hr>
+	<div class="row" *ngIf="mopcion">
+		<div class="col-md-12">
+
+			<label for="opcion">Elige una Opción</label>
+			<select class="form-control" id="opcion" [(ngModel)]="eleccion">
+				<option value="{{opcion.nombre}}" *ngFor="let opcion of ingredientes">{{opcion.nombre}}</option>
+			</select>
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="col-md-12">
+			<label for="comentario">Comentario</label>
+			<textarea name="" id="comentario" [(ngModel)]="comentario" rows="2" class="form-control"></textarea>
+
+		</div>
+	</div><br>
+	<div class="row">
+		<div class="col-md-6">
+
+		</div>
+		<div class="col-md-6">
+			<div class="input-group">
+				<input type="number" class="form-control" min="1" value="1" style="width: 40px;" [(ngModel)]="cantidad">
+				<span class="input-group-append"><button class="btn btn-primary btn-block" (click)="cargar(id)"><i
+							class="fa fa-cart-plus"></i> Add</button></span>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="modal-footer">
+
 </div>
