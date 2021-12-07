@@ -36,6 +36,7 @@ export class RevisarComponent implements OnInit {
 	vuelto
 	id_persona
 	id_direccion
+	fin = false
 	constructor(private RevisarService: RevisarService, private RegistroService: RegistroService) { }
 	fadreess = '';
 	place_id = '';
@@ -446,14 +447,15 @@ export class RevisarComponent implements OnInit {
 		var Info = JSON.parse(sessionStorage.getItem('user'))
 		var dir = ''
 		var depto = null
-		if(Info.data[0].direcciones[x].departamento != null){
-			depto = Info.data[0].direcciones[x].departamento
-		}
+		
 		
 		for (var x = 0; x < Info.data[0].direcciones.length; x++){
-			console.log(Info.data[0].direcciones[x].id, "here");
+			if(Info.data[0].direcciones[x].departamento != null){
+				depto = Info.data[0].direcciones[x].departamento
+				depto = depto.toString()
+			}
 			if(Info.data[0].direcciones[x].id == json.id_direccion){
-				dir = Info.data[0].direcciones[x].direccion_escrita +', ' + Info.data[0].direcciones[x].tipo_direccion +', ' + depto.toString()
+				dir = Info.data[0].direcciones[x].direccion_escrita +', ' + Info.data[0].direcciones[x].tipo_direccion +', ' + depto
 			}
 		}
 		for (var y = 0; y < json.detalle.length; y++){
@@ -577,8 +579,12 @@ export class RevisarComponent implements OnInit {
 			if (data["estado"] == 1) {
 				sessionStorage.setItem("user", JSON.stringify(data))
 				this.id_persona = data["data"][0].id
-				this.id_direccion = data["data"][0]["direcciones"][0].id;
-				this.calucarDelivery(this.id_direccion)	
+				if (data["data"][0]["direcciones"].length > 0){
+					this.id_direccion = data["data"][0]["direcciones"][0].id;
+					this.calucarDelivery(this.id_direccion)	
+				}
+				this.fin = true
+							
 				var sendin = {
 					"sender": {
 						"name": "No-Reply",

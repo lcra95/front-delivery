@@ -51,7 +51,8 @@ export class OrdenComponent implements OnInit {
 	imprimir(id, estado){
 		var params = {
 			"id" : id,
-			"estado": estado
+			"estado": estado,
+			"informada" : 1
 		}
 		this.download(id)
 		this.OrdenService.EditOrden(params).subscribe(response =>{

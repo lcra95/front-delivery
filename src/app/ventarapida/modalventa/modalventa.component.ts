@@ -25,7 +25,8 @@ export class ModalventaComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
-
+    this.eleccion = null
+    this.comentario = null
     this.opciones1 = this.ingredientes
 
 
@@ -35,7 +36,6 @@ export class ModalventaComponent implements OnInit {
 
   }
   cargar(index) {
-    console.log(index);
     // return
     if (this.ingredientes.length > 0 && this.eleccion == null) {
 

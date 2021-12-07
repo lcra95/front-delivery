@@ -52,7 +52,7 @@ export class MaestrosComponent implements OnInit {
 	}
 	onFileSelected(event){
 		this.file = event.target.files[0]
-		console.log(event);
+		
 		
 	}
 }

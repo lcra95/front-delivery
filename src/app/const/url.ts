@@ -18,6 +18,6 @@ export class Const {
 
     //API MAIL
     public static urlMail = 'https://api.sendinblue.com/v3/smtp/email';
-    public static tokenMail = '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';
+    public static tokenMail = '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';
     public static host =  window.location.protocol+'//'+ window.location.hostname+(location.port ? ':'+ window.location.port: '');
 }

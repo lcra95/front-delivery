@@ -3,7 +3,7 @@
 	<section class="section-content padding-y bg">
 		<div class="container">
 			<div class="row">
-				<aside class="col-md-7" *ngIf="!newDir">
+				<aside id="datos" class="col-md-7" *ngIf="!newDir">
 					<div class="card">
 						<div class="card-body">
 							<div class="form-row">
@@ -125,7 +125,7 @@
 	
 	
 				</aside>
-				<aside class="col-md-5">
+				<aside class="col-md-5" >
 					<div class="card mb-3">
 						<article class="card-body">
 							<header class="mb-4">
@@ -167,7 +167,7 @@
 								<dt class="col-sm-8">Total:</dt>
 								<dd class="col-sm-4 text-right"><strong class="h5 text-dark">${{tmonto | number:'1.0-0'}}</strong></dd>
 							</dl>
-							<div class="form-group col-md-12">
+							<div class="form-group col-md-12"  *ngIf="fin">
 								<label>Forma de Pago</label>
 								<select id="inputState" class="form-control" [(ngModel)]="tipo_pago"
 									(change)="setTipoPago()">
@@ -181,6 +181,7 @@
 										<p><strong>Identidad: </strong>{{cuenta.identificacion}}</p>
 										<p><strong>Tipo cuenta: </strong>{{cuenta.tipo_cuenta}}</p>
 										<p><strong>N° cuenta: </strong>{{cuenta.numero}}</p>
+										<p><strong>Email: </strong>{{cuenta.correo}}</p>
 									</div>
 								</div>
 							</div>
@@ -189,7 +190,7 @@
 								<input type="text"  [(ngModel)]="vuelto" class="form-control" placeholder="20000">
 							</div>
 							<div class="itemside col-md-12  border-bottom">
-								<a class="btn btn-primary btn-block" (click)="finalizar()"> Finalizar </a>
+								<a class="btn btn-primary btn-block" (click)="finalizar()"  *ngIf="fin"> Finalizar </a>
 							</div>
 						</article>
 					</div>

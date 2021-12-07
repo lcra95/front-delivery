@@ -21,7 +21,7 @@ export class LinkpagoComponent implements OnInit {
       "monto": this.monto
     }
     this.LinkpagoService.generar(params).subscribe(data=>{
-      console.log(data)
+      
       this.link ="http://rypsystems.cl:5000/pago?id="+data
     })
   }

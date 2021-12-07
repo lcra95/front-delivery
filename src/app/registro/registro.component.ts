@@ -166,7 +166,7 @@ export class RegistroComponent implements OnInit {
 	public handleAddressChange(address: any) {
 		this.fadreess = address
 		this.place_id = this.fadreess["place_id"];
-		console.log(this.fadreess["place_id"]);
+		
 		this.registro['direccion'] =  this.fadreess["formatted_address"]
 		
 	}
