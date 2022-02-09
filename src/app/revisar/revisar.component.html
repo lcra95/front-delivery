@@ -18,14 +18,14 @@
 								<!-- <div class="itemside col-sm-12 border-bottom" *ngIf="delivery">
 									<p><a class="btn btn-default btn-block" (click)="newDire()"><label>+ Nueva Dirección</label></a></p>
 								</div><br> -->
-								<div class="form-group col-md-6">
+								<div class="form-group col-md-12">
                                     <label>Nombre</label>                                   
                                         <input type="text" [(ngModel)]="registro.nombre" class="form-control" placeholder="Nombre">
                                 </div>
-								<div class="form-group col-md-6">
+								<!-- <div class="form-group col-md-6">
                                     <label>Apellido</label>
                                         <input type="text"  [(ngModel)]="registro.apellido" class="form-control" placeholder="Apellido">                                   
-                                </div>
+                                </div> -->
 								<div class="form-group col-md-12">
                                     <label>Teléfono</label>
 									<div class="input-group">
@@ -86,7 +86,8 @@
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label>Dirección</label>
-									<input class="form-control" [(ngModel)]="registro.direccion" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+									<label for="googlemapsAutocomplete" style="display: none">Dummy label to confuse google autofill</label>
+									<input id="googlemapsAutocomplete" class="form-control" [(ngModel)]="registro.direccion" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
 								</div>
 								<div class="form-group col-md-12">
 									<label>Edificación</label>

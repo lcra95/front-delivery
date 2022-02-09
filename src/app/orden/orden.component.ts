@@ -14,19 +14,28 @@ export class OrdenComponent implements OnInit {
 
 	constructor(private OrdenService: OrdenService) { }
 	hoy: string = moment(new Date()).format("DD-MM-YYYY");
-	ordenes
+	ordenes = []
+	ordenes1
 	//hoy ="30-08-2020"
 
 	ngOnInit() {
+		this.ordenes = []
 		var param = {
 			"id_sucursal" :  1,
 			"fecha": this.hoy,
 			"estado" : 1
 		}
 		this.OrdenService.getOrdens(param).subscribe(data=>{
-			this.ordenes = data
-			for(var i = 0; i < this.ordenes.length; i++){
-				if(this.ordenes[i].estado ==  "Pendiente"){
+			this.ordenes1 = data
+			for(var i = 0; i < this.ordenes1.length; i++){
+				if(this.ordenes1[i].tipo_pago != 3){
+					this.ordenes.push(this.ordenes1[i])
+				}else{
+					if(this.ordenes1[i].pagado == 1){
+						this.ordenes.push(this.ordenes1[i])
+					}
+				}
+				if(this.ordenes1[i].estado ==  "Pendiente"){
 					$("#alerta").innerHTML +='<audio src="/src/assets/audio/SD_ALERT_8.mp3" autoplay></audio>'
 				}
 			}
@@ -34,15 +43,24 @@ export class OrdenComponent implements OnInit {
 
 	}
 	filter(id){
+		this.ordenes = []
 		var param = {
 			"id_sucursal" :  1,
 			"fecha": this.hoy,
 			"estado" : id
 		}
 		this.OrdenService.getOrdens(param).subscribe(data=>{
-			this.ordenes = data
-			for(var i = 0; i < this.ordenes.length; i++){
-				if(this.ordenes[i].estado ==  "Pendiente"){
+			
+			this.ordenes1 = data
+			for(var i = 0; i < this.ordenes1.length; i++){
+				if(this.ordenes1[i].tipo_pago != 3){
+					this.ordenes.push(this.ordenes1[i])
+				}else{
+					if(this.ordenes1[i].pagado == 1){
+						this.ordenes.push(this.ordenes1[i])
+					}
+				}
+				if(this.ordenes1[i].estado ==  "Pendiente"){
 					$("#alerta").innerHTML +='<audio src="/src/assets/audio/SD_ALERT_8.mp3" autoplay></audio>'
 				}
 			}

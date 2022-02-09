@@ -33,11 +33,9 @@ export class RevisarService {
     return this.http.post(url, params);
   }
   setPagoOnLine(params){
-    var headers = {
-      "Authorization": Const.tokenPayKu 
-    }
-    let url = Const.urlPago + '/transaction';
-    return this.http.post(url, params, {headers: headers});
+
+    let url = Const.URL + '/webpay';
+    return this.http.post(url, params);
   }
   setNewDireccion(params){
     let url = Const.URL + '/direccion';

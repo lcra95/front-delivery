@@ -29,11 +29,9 @@ export class RegistroService {
         return this.http.post(url, params);
     }
     sendinBlue(params){
-        var headers = {
-            "api-key": Const.tokenMail
-        }
-        let url =  Const.urlMail
-        return this.http.post(url, params, {headers: headers});
+        
+        let url =  Const.URL + '/mailing/orden/' + params.toString()
+        return this.http.get(url, params);
     }
     getComunasProvincia(_id) {
 

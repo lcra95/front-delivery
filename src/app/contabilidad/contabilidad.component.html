@@ -33,12 +33,22 @@
 										<option value="7">Mochima 1</option>
 									</select>
 								</div>
-								<div class="form-group">
+								<div class="form-group" >
 									<label>Tipo Movimiento</label>
 									<select class="custom-select form-control" [(ngModel)]="tipo_movimiento" >
 										
 										<option value="1">Ingreso</option>
 										<option value="2">Egreso</option>
+										
+									</select>
+								</div>
+								<div class="form-group" *ngIf="tipo_movimiento ==2" >
+									<label>Tipo Gasto</label>
+									<select class="custom-select form-control" [(ngModel)]="tipo_egreso" >
+										
+										<option value="1" selected>Egreso Normal</option>
+										<option value="2">Egreso 70/30</option>
+										<option value="3">Egreso 50/50</option>
 										
 									</select>
 								</div>

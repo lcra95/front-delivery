@@ -14,6 +14,7 @@ export class ContabilidadComponent implements OnInit {
   centro_costo;
   tipo_movimiento
   disabled = false;
+  tipo_egreso = null;
   constructor(private MovimientoService: MovimientoService,) { }
   ngOnInit() {
   }
@@ -39,6 +40,24 @@ export class ContabilidadComponent implements OnInit {
       "id_tipo_movimiento": this.tipo_movimiento,
       "concepto": this.concepto
     }
+    if(this.tipo_movimiento == 2){
+
+      if(this.tipo_egreso != null){
+        json["tipo_egreso"] = this.tipo_egreso
+      }else{
+        swal({
+
+          title: "Campos Obligatorios",
+          text : msj,
+          timer: 2000,
+          icon: "error"
+        })
+        this.disabled = false
+        return;
+
+      }
+    }
+
     this.MovimientoService.setRegistro(json).subscribe(data => {
       if(data["estado"] = 1){ 
         this.fecha = ''
@@ -46,6 +65,7 @@ export class ContabilidadComponent implements OnInit {
         this.centro_costo = ''
         this.tipo_movimiento= ''
         this.concepto= ''
+        this.tipo_egreso= ''
         swal({
 
           title: "Registro Exitoso",

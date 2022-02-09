@@ -4,6 +4,7 @@ import { RegistroService } from './../registro/registro.service'
 import { Const } from './../const/url';
 import swal from 'sweetalert';
 import $ from 'jquery'
+import { monthsShort } from 'moment';
 
 @Component({
 	selector: 'app-revisar',
@@ -51,6 +52,7 @@ export class RevisarComponent implements OnInit {
 	confirmado = false
 	enable = false
 	urlImage = Const.URL+'/imagen/'
+	enviaMail = true
 	ngOnInit() {
 
 		this.carros = JSON.parse(sessionStorage.getItem('cart'));
@@ -182,39 +184,25 @@ export class RevisarComponent implements OnInit {
 			if (response["estado"] == 1) {
 				orden = response["orden"]
 				
-				if (this.tipo_pago == 3 || this.tipo_pago ==8 ) {
-					var tipoP =1; 
-					if (this.tipo_pago ==8){
-						tipoP = 8;
-					}
-					var PayKu = {
-						"email": this.registro["email"],
-						"order": response["orden"],
-						"subject": "Pago orden N° " + orden.toString(),
-						"amount": this.total,
-						"payment": tipoP,
-						"urlreturn": Const.host + "/producto",
-						//"urlreturn": "http://nrquena.ddns.net:5000" + "/producto",
-						"urlnotify": Const.URL + "/pagoenlinea"
-					}
-					this.RevisarService.setPagoOnLine(PayKu).subscribe(response1 => {
-						if (response1["id"]) {
-							sessionStorage.removeItem('cart');
-							var cart = [];
-							sessionStorage.setItem("cart", JSON.stringify(cart))
-							swal({
-								title: "Muy Bien",
-								text: "Se generó exitosamente la orden " + orden,
-								icon: "success"
-							}).then((value) => {
-								window.location.replace(response1["url"])
-							});
+				if (this.tipo_pago == 3 || this.tipo_pago == 8 ) {
 
-						}
-
+					var payload = {
+						"order" : orden,
+						"url_return" : Const.host + "/producto"
+					}
+					this.RevisarService.setPagoOnLine(payload).subscribe(response =>{
+						console.log(response);
+						var redirect =  Const.URL + "/webpay?token=" + response["token"]
+						window.location.replace(redirect)
+						
 					})
+							
 				} else {
-					this.sendMail(jsonOrder,orden)
+					if(this.enviaMail){
+						this.RegistroService.sendinBlue(orden).subscribe(response=>{
+							console.log("response");	
+						})
+					}
 					sessionStorage.removeItem('cart');
 					var cart = [];
 					sessionStorage.setItem("cart", JSON.stringify(cart))
@@ -352,155 +340,7 @@ export class RevisarComponent implements OnInit {
 		this.registro['direccion'] = this.fadreess["formatted_address"]
 
 	}
-	getContext(jsoninfo) {
-		var html = ''
-		html += `<table width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f5f7fa">
-		<tbody cellspacing="0" cellpadding="0" border="0">
-			<tr>
-				<td align="center" valign="top">
-					<table cellspacing="0" cellpadding="0" border="0" style="max-width: 100%; padding: 3%; background:white;">
-						<tbody cellspacing="0" cellpadding="0" border="0">
-							<tr>
-								<td align="center" style="text-align: center;">
-									<!-- <img src="{{respuesta.dominio_env + '/api_static/images/logo/' + respuesta.logo_prestador + '?api_key=MTR30LJn0ZjQYFaEIaMRT585PSHZufhjU7KCIvEc'}}"
-												alt="{{respuesta.nombre_prestador}}" style="width: 60%;"> -->
-									<p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
-										Estimada (o) ${jsoninfo.nombre}.
-									</p>
-									<p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
-										Junto con agradecer su preferencia,
-										le informamos que su orden <b>${jsoninfo.orden}</b> ha sido recepcionada
-									</p>
-	
-	
-								</td>
-							</tr>
-							<tr>
-								<td style="border-bottom: 1px solid rgba(0,0,0,.1); padding: 0; text-transform: uppercase;">
-									<h3>Datos de la orden</h3>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h4 style="margin-bottom: 10px; margin-top: 10px;text-transform: capitalize;">
-										${jsoninfo.nombre} <br>
-										${jsoninfo.telefono}<br>
-										${jsoninfo.email}
-									</h4>
-								</td>
-							</tr>
-							<tr>
-								<td style="border-bottom: 1px solid rgba(0,0,0,.1); padding: 0; text-transform: uppercase;">
-									<h3>Productos </h3>
-								</td>
-							</tr>
-							${this.htmlDetalle}
-							<tr>
-								<td>
-									<br>
-	
-								</td>
-	
-							</tr>
-							<tr>
-								<td>
-									<table style="width:100%">
-										<tr>
-											<td>
-												<table width="100%" style="background: #fff9da; padding: 10px;"												cellspacing="0" cellpadding="0" border="0">
-													<tbody>
-														<tr>
-															<td style="color:#d2a624;">Entrega :</td>
-															<td style="color: #616161;"><b>${jsoninfo.tipo_entrega}</b></td>
-														</tr>
-														<tr>
-															<td style="color:#d2a624;">Pago</td>
-															<td style="color: #616161;"><b>${jsoninfo.tipo_pago}</b></td>
-														</tr>
-														<tr>
-															<td style="color:#d2a624;">Direccion :</td>
-															<td style="color: #616161;"><b>${jsoninfo.direccion}</b></td>
-														</tr>
-													</tbody>
-												</table>
-	
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-	
-							<tr>
-								<td colspan="3"> <br><br> </td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
-		</tbody>
-	</table>`
 
-	return html
-	}
-
-	sendMail(json, orden){
-		var Info = JSON.parse(sessionStorage.getItem('user'))
-		var dir = ''
-		var depto = null
-		
-		
-		for (var x = 0; x < Info.data[0].direcciones.length; x++){
-			if(Info.data[0].direcciones[x].departamento != null){
-				depto = Info.data[0].direcciones[x].departamento
-				depto = depto.toString()
-			}
-			if(Info.data[0].direcciones[x].id == json.id_direccion){
-				dir = Info.data[0].direcciones[x].direccion_escrita +', ' + Info.data[0].direcciones[x].tipo_direccion +', ' + depto
-			}
-		}
-		for (var y = 0; y < json.detalle.length; y++){
-			this.htmlDetalle +=`
-			<tr>
-				<td>
-					<label style="margin-bottom: 10px; margin-top: 10px;"> 
-						${json.detalle[y].cantidad} x ${json.detalle[y].nombre} : ${json.detalle[y].sub_total}
-					</label>
-				</td>
-			</tr>`
-		}
-		var dataMail = {
-			"nombre": Info.data[0].nombre +' '+ Info.data[0].apellido_paterno,
-			"telefono" : '+56 ' + Info.data[0].telefono.toString(),
-			"email" : Info.data[0].correo,
-			"direccion": dir,
-			"detalle" : json.detalle,
-			"orden" : orden,
-			"tipo_entrega" : $("#inputState1 option:selected").text(),
-			"tipo_pago" : $("#inputState option:selected").text(),
-
-		}
-		var context = this.getContext(dataMail);
-		var sendin = {
-			"sender": {
-				"name": "No-Reply",
-				"email": "no-reply@rypsystems.cl"
-			},
-			"to": [
-				{
-					"email":  Info.data[0].correo,
-					"name": Info.data[0].nombre +' '+ Info.data[0].apellido_paterno
-				}
-			],
-			"textContent": this.getContext(dataMail),
-			"subject": "Gracias por su compra, Orden N° " + orden.toString()
-		}
-		this.RegistroService.sendinBlue(sendin).subscribe(response=>{
-			console.log("response");
-			
-		})
-
-
-	}
 	confirmarDatos(){
 		var dept = null;
 		var er = false;
@@ -512,14 +352,16 @@ export class RevisarComponent implements OnInit {
 			er = true
 		}
 		if(!this.registro['email']){
-			er = true
+			this.registro['email'] = "sin@correo.cl"
+			this.enviaMail = false
+			// er = true
 		}
 		// if(!this.registro['numerod']){
 		// 	er = true
 		// }
-		if(!this.registro['apellido']){
-			er = true
-		}
+		// if(!this.registro['apellido']){
+		// 	er = true
+		// }
 		if(!this.registro['fono']){
 			er = true
 		}
@@ -562,7 +404,7 @@ export class RevisarComponent implements OnInit {
 			"identificacion": this.registro['identificacion'],
 			//"identificacion": null,
 			"nombre" : this.registro['nombre'],
-			"apellido" : this.registro['apellido'],
+			"apellido" : "",
 			"id_comuna" : this.registro['comuna'],
 			"id_tipo_direccion" : this.registro['tipo'],
 			"numero" : this.registro['fono'],
@@ -584,32 +426,6 @@ export class RevisarComponent implements OnInit {
 					this.calucarDelivery(this.id_direccion)	
 				}
 				this.fin = true
-							
-				var sendin = {
-					"sender": {
-						"name": "No-Reply",
-						"email": "no-reply@rypsystems.cl"
-					},
-					"to": [
-						{
-							"email": this.registro['email'],
-							"name": this.registro['nombre'] +' ' +  this.registro['apellido']
-						}
-					],
-					"textContent": this.getContext1(),
-					"subject": "Bienvenido..!"
-				}
-				this.RegistroService.sendinBlue(sendin).subscribe( data =>{
-					swal({
-
-						title: "Registro Exitoso",
-						text : "Los datos han sido almacenados con éxito",
-						timer: 2000,
-						icon: "success"
-					})
-					
-				})
-
 
 			} else if (data["estado"] == 0) {
 			
@@ -624,22 +440,6 @@ export class RevisarComponent implements OnInit {
 			}
 
 		})
-	}
-	getContext1(){
-		var html =`<!DOCTYPE html>
-		<html lang="en">
-		<head>
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Document</title>
-		</head>
-		<body>
-			<div align="center">Ya puedes comenzar a comprar con nosotros</div>
-			
-		</body>
-		</html>`
-
-		return html
 	}
 
 }
