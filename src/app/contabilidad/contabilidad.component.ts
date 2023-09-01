@@ -14,9 +14,76 @@ export class ContabilidadComponent implements OnInit {
   centro_costo;
   tipo_movimiento
   disabled = false;
-  tipo_egreso = null;
+  tipo_egreso = 1;
+  fecha_inicio = '2023-08-07';
+  cisterna = []
+  mes 
+  anio
+  lunes
+  san_miguel = []
+  san_ignacio = []
+  totalLaCisterna: number;
+  totalSanMiguel: number;
+  totalSanIgnacio: number;
+  groupedData
+  tamanio
+  tventas 
   constructor(private MovimientoService: MovimientoService,) { }
   ngOnInit() {
+    var month 
+    var year
+    this.MovimientoService.getMesAnio().subscribe(resp =>{
+      this.mes = resp["month"]
+      this.anio = resp["year"]
+
+      
+      this.MovimientoService.getLunes(this.anio, this.mes).subscribe(lunes =>{
+        this.lunes = lunes["dates"]
+        
+      })
+    })
+    this.consultar()
+  }
+  actualizafecha(){
+    this.MovimientoService.getLunes(this.anio, this.mes).subscribe(lunes =>{
+      this.lunes = lunes["dates"]
+      this.fecha_inicio= lunes["dates"][0]
+      this.consultar()
+    })
+  }
+  consultar(){
+    this.cisterna = []
+    this.san_miguel = []
+    this.san_ignacio = []
+    var self = this
+    if (this.fecha_inicio != null){
+
+      this.MovimientoService.getMovimientos(this.fecha_inicio).subscribe(response =>{
+        if(response["response"]["la_cisterna"].length > 0){
+
+          self.cisterna = response["response"]["la_cisterna"]
+        }
+        if(response["response"]["san_miguel"].length > 0){
+ 
+          self.san_miguel = response["response"]["san_miguel"]
+        }
+        if(response["response"]["san_ignacio"].length > 0){
+        
+          self.san_ignacio = response["response"]["san_ignacio"]
+        }
+        this.groupedData = response["response"]["ventas"]
+        this.tamanio = this.groupedData.length
+        this.totalLaCisterna = response["response"]["total_cisterna"]
+        this.totalSanMiguel = response["response"]["total_san_miguel"]
+        this.totalSanIgnacio = response["response"]["total_san_igancio"]
+        this.tventas = response["response"]["total_ventas"]
+
+        
+        
+      })
+      
+    }
+
   }
   registrar(){
     this.disabled = true
@@ -45,6 +112,7 @@ export class ContabilidadComponent implements OnInit {
       if(this.tipo_egreso != null){
         json["tipo_egreso"] = this.tipo_egreso
       }else{
+        alert("AQUI")
         swal({
 
           title: "Campos Obligatorios",
@@ -65,7 +133,7 @@ export class ContabilidadComponent implements OnInit {
         this.centro_costo = ''
         this.tipo_movimiento= ''
         this.concepto= ''
-        this.tipo_egreso= ''
+        this.tipo_egreso= 1
         swal({
 
           title: "Registro Exitoso",
@@ -74,6 +142,7 @@ export class ContabilidadComponent implements OnInit {
           icon: "success"
         })
         this.disabled = false
+        this.consultar()
       }else{
         swal({
 
@@ -90,4 +159,5 @@ export class ContabilidadComponent implements OnInit {
     })
     
   }
+  
 }

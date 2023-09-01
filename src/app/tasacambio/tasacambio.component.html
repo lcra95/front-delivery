@@ -1,0 +1,57 @@
+<div class="container bg">
+	<section class="section-content padding-y">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title mb-4">Calculador Tasa</h4>
+
+								<div class="input-group mb-3">
+
+									<input aria-describedby="button-addon2" (change)="cambio()" id="tasa" name="" class="form-control" placeholder="" type="number" [(ngModel)]="tasa" required>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-refresh" aria-hidden="true" (click)="actualizartasa()"></i></button>
+									  </div>
+								</div>
+								<div class="form-group" >
+									<label>Moneda</label>
+									<select class="custom-select form-control" [(ngModel)]="currency" >
+										
+										<option value="CLP">CLP</option>
+										<option value="BS">BS</option>
+										<option value="USD">USD</option>
+										
+									</select>
+								</div>
+								<div class="form-group">
+									<label>{{currency}}</label>
+									<input class="form-control"  type="number" [(ngModel)]="monto">
+								</div>
+
+								
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary btn-block" (click)="calcular()" [disabled]="disabled"> Calcular </button>
+								</div>
+								<div>
+									<h5>Tasa: {{tasa}}</h5>
+									<h5>$ a CLP: {{precio_clp}}</h5>
+									<h5>$ a VES: {{precio_bs}}</h5>
+									<h5>Bs Remesa: {{bs_remesa}}</h5>
+									<h5>$ comprar: {{usd}}</h5>
+									<h5 style="color: red;">CLP Cobrar CLI: {{cobrar}}</h5>
+									<h5>CLP pagar P2P: {{clp_pagar}}</h5>
+									<h5>Ganancia: {{ganancia}}</h5>
+									<h5>Margen: {{margen}}</h5>
+								</div>
+						</div>
+
+					</div>
+	
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</section>
+</div>

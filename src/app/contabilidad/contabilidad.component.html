@@ -1,69 +1,435 @@
-<div class="container bg">
-	<section class="section-content padding-y">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title mb-4">Calculador Delivery</h4>
-							
-								<div class="form-group">
-									<label>Fecha</label>
-									<input name="" class="form-control" placeholder="" type="date" [(ngModel)]="fecha">
-								</div>
-								<div class="form-group">
-									<label>Monto</label>
-									<input name="" class="form-control" placeholder="" type="number" [(ngModel)]="monto">
-								</div>
-								<div class="form-group">
-									<label>Descripcion</label>
-									<input class="form-control"  type="text" [(ngModel)]="concepto">
-								</div>
-								<div class="form-group">
-									<label>Centro Costo</label>
-									<select class="custom-select form-control" [(ngModel)]="centro_costo" >
-										
-										<option value="1">Efectivo</option>
-										<option value="2">Punto SumUp</option>
-										<option value="3">Transferencia</option>
-										<option value="4">Pedidos Ya</option>
-										<option value="5">Punto TransBank</option>
-										<option value="6">Amipass</option>
-										<option value="7">Mochima 1</option>
-									</select>
-								</div>
-								<div class="form-group" >
-									<label>Tipo Movimiento</label>
-									<select class="custom-select form-control" [(ngModel)]="tipo_movimiento" >
-										
-										<option value="1">Ingreso</option>
-										<option value="2">Egreso</option>
-										
-									</select>
-								</div>
-								<div class="form-group" *ngIf="tipo_movimiento ==2" >
-									<label>Tipo Gasto</label>
-									<select class="custom-select form-control" [(ngModel)]="tipo_egreso" >
-										
-										<option value="1" selected>Egreso Normal</option>
-										<option value="2">Egreso 70/30</option>
-										<option value="3">Egreso 50/50</option>
-										
-									</select>
-								</div>
-								
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-block" (click)="registrar()" [disabled]="disabled"> Guardar </button>
-								</div>
-							
-						</div>
+<app-accordion [data]="groupedData"></app-accordion>
 
-					</div>
-	
-				</div>
-				<div class="col-md-4"></div>
+<div class="container bg">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label>Mes</label>
+				<select class="custom-select form-control" [(ngModel)]="mes" (change)="actualizafecha()">
+
+					<option value="1">Enero</option>
+					<option value="2">Febrero</option>
+					<option value="3">Marzo</option>
+					<option value="4">Abril</option>
+					<option value="5">Mayo</option>
+					<option value="6">Junio</option>
+					<option value="7">Julio</option>
+					<option value="8">Agosto</option>
+					<option value="9">Septiembre</option>
+					<option value="10">Octubre</option>
+					<option value="11">Noviembre</option>
+					<option value="12">Diciembre</option>
+				</select>
 			</div>
 		</div>
-	</section>
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label>Mes</label>
+				<select class="custom-select form-control" [(ngModel)]="anio" (change)="actualizafecha()">
+
+					<option value="2023">2023</option>
+					<option value="2024">2024</option>
+					<option value="2025">2025</option>
+					<option value="2026">2026</option>
+
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label>Mes</label>
+				<select class="custom-select form-control" [(ngModel)]="fecha_inicio" (change)="consultar()">
+					<option value="{{item}}" *ngFor="let item of lunes">{{item}}</option>
+				</select>
+			</div>
+		</div>
+
+
+
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<section class="section-content padding-y">
+
+				<div class="cl">
+
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" id="myTabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="cisterna-tab" data-toggle="tab" href="#cisterna" role="tab"
+								aria-controls="cisterna" aria-selected="true">La Cisterna</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="sanmiguel-tab" data-toggle="tab" href="#sanmiguel" role="tab"
+								aria-controls="sanmiguel" aria-selected="false">San Miguel</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="sanignacio-tab" data-toggle="tab" href="#sanignacio" role="tab"
+								aria-controls="sanignacio" aria-selected="false">San Ignacio</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="ventas-tab" data-toggle="tab" href="#ventas" role="tab"
+								aria-controls="ventas" aria-selected="false">Ventas</a>
+						</li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane active" id="cisterna" role="tabpanel" aria-labelledby="cisterna-tab">
+							<h3>La Cisterna</h3>
+
+							<table width="100%" class="table table-striped">
+								<tr>
+									<th>Concepto</th>
+									<th>Fecha</th>
+									<th>Monto</th>
+								</tr>
+								<tr *ngFor="let orden of cisterna">
+									<td>{{orden.concepto}}</td>
+									<td>{{orden.fecha}}</td>
+									<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+								</tr>
+								<tr>
+									<td colspan="2">Total Gasto</td>
+									<td><b>${{totalLaCisterna | number:'1.0-0'}}</b></td>
+								</tr>
+							</table>
+						</div>
+						<div class="tab-pane" id="sanmiguel" role="tabpanel" aria-labelledby="sanmiguel-tab">
+							<h3>San Miguel</h3>
+
+							<table width="100%" class="table table-striped">
+								<tr>
+									<th>Concepto</th>
+									<th>Fecha</th>
+									<th>Monto</th>
+								</tr>
+								<tr *ngFor="let orden of san_miguel">
+									<td>{{orden.concepto}}</td>
+									<td>{{orden.fecha}}</td>
+									<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+								</tr>
+								<tr>
+									<td colspan="2">Total Gasto</td>
+									<td><b>${{totalSanMiguel | number:'1.0-0'}}</b></td>
+								</tr>
+
+							</table>
+						</div>
+						<div class="tab-pane" id="sanignacio" role="tabpanel" aria-labelledby="sanignacio-tab">
+							<h3>San Ignacio</h3>
+
+							<table width="100%" class="table table-striped">
+								<tr>
+									<th>Concepto</th>
+									<th>Fecha</th>
+									<th>Monto</th>
+								</tr>
+								<tr *ngFor="let orden of san_ignacio">
+									<td>{{orden.concepto}}</td>
+									<td>{{orden.fecha}}</td>
+									<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+								</tr>
+								<tr>
+									<td colspan="2">Total Gasto</td>
+									<td><b>${{totalSanIgnacio | number:'1.0-0'}}</b></td>
+								</tr>
+							</table>
+						</div>
+						<div class="tab-pane" id="ventas" role="tabpanel" aria-labelledby="ventas-tab" *ngIf="tamanio > 0">
+							<h3>Ventas ${{tventas | number:'1.0-0'}}</h3>
+							<div class="accordion" id="accordionExample" >
+								<div class="card"  *ngIf="tamanio >= 1">
+									<div class="card-header" id="headingOne">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left" type="button"
+												data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+												aria-controls="collapseOne">
+												{{groupedData[0].fecha}} 
+											</button>
+
+										</h2>
+										<p><b> ${{groupedData[0].total | number:'1.0-0'}}</b></p>
+										
+									</div>
+
+									<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[0].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="card"  *ngIf="tamanio >= 2">
+									<div class="card-header" id="headingTwo">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left collapsed" type="button"
+												data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+												aria-controls="collapseTwo">
+												{{groupedData[1].fecha}}
+											</button>
+										</h2>
+										<p><b> ${{groupedData[1].total | number:'1.0-0'}}</b></p>
+									</div>
+									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[1].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="card"  *ngIf="tamanio >= 3">
+									<div class="card-header" id="headingThree">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left collapsed" type="button"
+												data-toggle="collapse" data-target="#collapseThree"
+												aria-expanded="false" aria-controls="collapseThree">
+												{{groupedData[2].fecha}}
+											</button>
+										</h2>
+										<p><b> ${{groupedData[2].total | number:'1.0-0'}}</b></p>
+									</div>
+									<div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[2].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="card"  *ngIf="tamanio >= 4">
+									<div class="card-header" id="headingFour">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left collapsed" type="button"
+												data-toggle="collapse" data-target="#collapseFour"
+												aria-expanded="false" aria-controls="collapseFour">
+												{{groupedData[3].fecha}}
+											</button>
+										</h2>
+										<p><b> ${{groupedData[3].total | number:'1.0-0'}}</b></p>
+									</div>
+									<div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[3].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="card"  *ngIf="tamanio >= 5">
+									<div class="card-header" id="headingFive">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left collapsed" type="button"
+												data-toggle="collapse" data-target="#collapseFive"
+												aria-expanded="false" aria-controls="collapseFive">
+												{{groupedData[4].fecha}}
+											</button>
+										</h2>
+										<p><b> ${{groupedData[4].total | number:'1.0-0'}}</b></p>
+									</div>
+									<div id="collapseFive" class="collapse" aria-labelledby="headingFive"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[4].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="card"  *ngIf="tamanio >= 6">
+									<div class="card-header" id="headingSix">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left collapsed" type="button"
+												data-toggle="collapse" data-target="#collapseSix"
+												aria-expanded="false" aria-controls="collapseSix">
+												{{groupedData[5].fecha}}
+											</button>
+										</h2>
+										<p><b> ${{groupedData[5].total | number:'1.0-0'}}</b></p>
+									</div>
+									<div id="collapseSix" class="collapse" aria-labelledby="headingSix"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[5].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="card"  *ngIf="tamanio == 7">
+									<div class="card-header" id="headingSeven">
+										<h2 class="mb-0">
+											<button class="btn btn-link btn-block text-left collapsed" type="button"
+												data-toggle="collapse" data-target="#collapseSeven"
+												aria-expanded="false" aria-controls="collapseSeven">
+												{{groupedData[6].fecha}}
+											</button>
+										</h2>
+										<p><b> ${{groupedData[6].total | number:'1.0-0'}}</b></p>
+									</div>
+									<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven"
+										data-parent="#accordionExample">
+										<div class="card-body">
+											<table width="100%" class="table table-striped">
+												<tr>
+													<th>Concepto</th>
+													<th>Fecha</th>
+													<th>Monto</th>
+												</tr>
+												<tr *ngFor="let orden of groupedData[6].registros">
+													<td>{{orden.concepto}}</td>
+													<td>{{orden.fecha}}</td>
+													<td align="right">${{orden.monto_bruto | number:'1.0-0'}}</td>
+												</tr>				
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="col-sm-6">
+			<div class="container">
+				<section class="section-content padding-y">
+					<div class="container">
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title mb-4">Registro de Movimientos</h4>
+
+										<div class="form-group">
+											<label>Fecha</label>
+											<input name="" class="form-control" placeholder="" type="date"
+												[(ngModel)]="fecha">
+										</div>
+										<div class="form-group">
+											<label>Monto</label>
+											<input name="" class="form-control" placeholder="" type="number"
+												[(ngModel)]="monto">
+										</div>
+										<div class="form-group">
+											<label>Descripcion</label>
+											<input class="form-control" type="text" [(ngModel)]="concepto">
+										</div>
+										<div class="form-group">
+											<label>Tipo Movimiento</label>
+											<select class="custom-select form-control" [(ngModel)]="tipo_movimiento">
+
+												<option value="1">Ingreso</option>
+												<option value="2">Egreso</option>
+
+											</select>
+										</div>
+										<div class="form-group" *ngIf="tipo_movimiento ==2">
+											<label>Tipo Gasto</label>
+											<select class="custom-select form-control" [(ngModel)]="tipo_egreso">
+
+												<option value="1">Egreso Normal</option>
+												<option value="2">Egreso 70/30</option>
+												<option value="3">Egreso 50/50</option>
+
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>Centro Costo</label>
+											<select class="custom-select form-control" [(ngModel)]="centro_costo">
+
+												<option value="1"*ngIf="tipo_movimiento == 1">Efectivo</option>
+												<option value="3"*ngIf="tipo_movimiento == 1">Transferencia</option>
+												<option value="5"*ngIf="tipo_movimiento == 1">Punto TransBank</option>
+												<option value="2"*ngIf="tipo_movimiento == 1">Punto SumUp</option>
+												<!-- <option value="4"*ngIf="tipo_movimiento == 1">Uber</option> -->
+												<!-- <option value="6"*ngIf="tipo_movimiento == 1">Amipass</option> -->
+												<option value="9" *ngIf="tipo_movimiento == 2">La Cisterna</option>
+												<option value="7" *ngIf="tipo_movimiento == 2">San Miguel</option>
+												<option value="8" *ngIf="tipo_movimiento == 2">San Ignacio</option>
+											</select>
+										</div>
+										
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-block"
+												(click)="registrar()" [disabled]="disabled"> Guardar </button>
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
 </div>

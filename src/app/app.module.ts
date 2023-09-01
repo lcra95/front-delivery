@@ -29,7 +29,8 @@ import { CalculadorComponent } from './calculador/calculador.component';
 import { LinkpagoComponent } from './linkpago/linkpago.component';
 import { VentarapidaComponent } from './ventarapida/ventarapida.component';
 import { ModalventaComponent } from './ventarapida/modalventa/modalventa.component';
-
+import { TasacambioComponent } from './tasacambio/tasacambio.component';
+import { AccordionComponent } from './accordion/accordion.component';
 const appRoutes: Routes = [
 	{ path: '', component: ProductoComponent },
 	{ path: 'producto', component: ProductoComponent },
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
 	{ path: 'calculador', component: CalculadorComponent },
 	{ path: 'generador', component: LinkpagoComponent },
 	{ path: 'venta', component: VentarapidaComponent },
-
+	{ path: 'tasa', component: TasacambioComponent },
+	
 	{ path: '**', redirectTo: '/login' }
 ];
 
@@ -87,7 +89,9 @@ const appRoutes: Routes = [
     CalculadorComponent,
     LinkpagoComponent,
     VentarapidaComponent,
-    ModalventaComponent
+    ModalventaComponent,
+    TasacambioComponent,
+    AccordionComponent
     
   ],
   providers: [],
